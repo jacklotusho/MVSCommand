@@ -18,6 +18,7 @@
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.DFSORT.CMD'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.ADRDSU.CMD'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.TSO.CMD'") >/dev/null 2>&1
+(tsocmd delete "'"${TESTHLQ}".MVSCMD.TSO.REXX'") >/dev/null 2>&1
 
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.BIND.OBJ'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DLS.FILEA'"\) recfm\(v,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
@@ -37,6 +38,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DFSORT.NEW'"\) recfm\(f,b\) lrecl\(80\) dso
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DFSORT.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.ADRDSU.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.TSO.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.TSO.REXX'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 
 cd testsrc 
 
@@ -80,3 +82,4 @@ cp dfsort.new     "//'"${TESTHLQ}".MVSCMD.DFSORT.NEW'"
 cp adrdsu.cmd     "//'"${TESTHLQ}".MVSCMD.ADRDSU.CMD'"
 cp tsoxmit.cmd    "//'"${TESTHLQ}".MVSCMD.TSO.CMD(XMIT)'"
 cp tsorcv.cmd     "//'"${TESTHLQ}".MVSCMD.TSO.CMD(RCV)'"
+cp opercmd.rexx   "//'"${TESTHLQ}".MVSCMD.TSO.REXX(OPERCMD)'"

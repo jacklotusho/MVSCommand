@@ -25,7 +25,6 @@ To install:
 - edit build.sh if required to point to your C compiler and assembler, then run the script to build the program.
 - run build.sh: build.sh
 - The assemble, compile and link should be 'clean' and will produce a file called 'mvscmd' and an authorized version called 'mvscmdauth'
--  NOTE: You do not need to create mvscmdauth - but it is required for running authorized programds like ADRDSU and IKJEFT01
 
 ## API Reference
 

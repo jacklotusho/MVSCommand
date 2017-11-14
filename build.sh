@@ -25,6 +25,13 @@ else
 fi
 
 . ./setenv.sh
+
+tsocmd "listds '${AUTHHLQ}.${AUTHSFX}'" >/dev/null 2>&1
+rc=$?
+if [[ ${rc} -gt 0 ]] ; then
+	echo "Dataset ${AUTHHLQ}.${AUTHSFX} must be pre-allocated to a PDSE (program object library)"
+	exit 16
+fi 
 export STEPLIB=${CHLQ}.SCCNCMP
 cd bin
 rm -f mvscmd *.o *.lst *.dbg
