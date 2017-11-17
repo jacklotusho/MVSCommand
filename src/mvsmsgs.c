@@ -59,7 +59,10 @@ static const char* ProgramFailureMessage[] = {
 	"Error reading from stdin to %s.\n",	
 	"Error writing record %d to stdin temporary dataset %s.\n",
 	"Error allocating DDName %s to file %s.\n",
-	"Error establishing environment.\n"
+	"Error establishing environment.\n",
+	"Error freeing DDName %s.\n",
+	"Error freeing DDName %s from PDS Member %s(%s).\n",	
+	"Error freeing DDName %s from Dataset %s.\n",		
 };
 
 static const char* ProgramInfoMessage[] = {
@@ -119,7 +122,9 @@ static const char* ProgramInfoMessage[] = {
 	"  %s=stdin\n",
 	"Record %d read from stdin is more than 80 bytes. Record truncated\n",
 	"%s",
-	"HFS allocation succeeded for %s=%s (%s)\n",
+	"HFS allocation succeeded for %s=%s (%s)\n", 
+	"PDS Member free succeeded for %s=%s(%s)\n",
+	"Dataset free succeeded for %s=%s\n",	
 };
 
 

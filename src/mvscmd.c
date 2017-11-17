@@ -73,7 +73,10 @@ int main(int argc, char* argv[]) {
 	if (rc != NoError) {
 		return 16;
 	}	
-	
+	rc = freeDDNames(&optInfo);
+	if (rc != NoError) {
+		return 8;
+	}	
 	rc = printToConsole(&optInfo);
 	if (rc != NoError) {
 		return 8;

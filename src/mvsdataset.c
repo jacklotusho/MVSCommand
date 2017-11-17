@@ -112,6 +112,14 @@ static void DatasetAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 	}
 }
 
+static void DatasetFreeError(OptInfo_T* optInfo, __dyn_t* ip) {
+	char* ddName = ip->__ddname;
+	char* dsName = ip->__dsname;
+
+	printError(ErrorFreeingDataset, ddName, dsName);
+
+}
+
 static void HFSAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 	char* ddName   = ip->__ddname;
 	char* fileName = ip->__pathname;
@@ -125,7 +133,15 @@ static void PDSMemberAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 	char* ddName = ip->__ddname;
 	char* dsName = ip->__dsname;
 	char* memName= ip->__member;
-	printError(ErrorAllocatingPDSMember, ddName, dsName, memName);	}
+	printError(ErrorAllocatingPDSMember, ddName, dsName, memName);	
+}
+
+static void PDSMemberFreeError(OptInfo_T* optInfo, __dyn_t* ip) {
+	char* ddName = ip->__ddname;
+	char* dsName = ip->__dsname;
+	char* memName= ip->__member;
+	printError(ErrorFreeingPDSMember, ddName, dsName, memName);	
+}
 
 static void DummyAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 	char* ddName = ip->__ddname;
@@ -529,6 +545,105 @@ ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo) {
 	return rc;
 }
 
+static int freePDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
+	__dyn_t ip;
+	int rc;
+
+	dyninit(&ip);
+
+	ip.__ddname = ddName; 
+	ip.__dsname = fileNode->node.ds.dsName; 
+	ip.__member = getMemberName(fileNode);
+	ip.__dsorg  = __DSORG_PS;
+	if (isExclusive) {
+		ip.__status = __DISP_OLD;
+	} else {
+		ip.__status = __DISP_SHR; 
+	}   
+
+	errno = 0;
+	rc = dynfree(&ip); 
+	if (rc || FORCE(FAIL_PDSMemberFree)) {
+		rc = (rc == 0) ? FORCED_ALLOCATION_RC : rc;
+		PDSMemberFreeError(optInfo, &ip);
+	} else {
+   		if (optInfo->verbose) {
+   			printInfo(InfoPDSMemberFreeSucceeded, ddName, fileNode->node.ds.dsName, getMemberName(fileNode));
+   		}
+   	}
+	return rc;
+
+}
+
+static int freeDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
+	__dyn_t ip;
+	int rc;
+
+	dyninit(&ip);
+
+	ip.__ddname = ddName; 
+	ip.__dsname = fileNode->node.ds.dsName; 
+	
+	if (isExclusive) {
+		ip.__status = __DISP_OLD;
+	} else {
+		ip.__status = __DISP_SHR; 
+	}
+
+	errno = 0;
+	rc = dynfree(&ip); 
+	if (rc) {
+		DatasetFreeError(optInfo, &ip);
+	} else {
+   		if (optInfo->verbose) {
+   			printInfo(InfoDatasetFreeSucceeded, ddName, fileNode->node.ds.dsName);
+   		}
+   	}
+   	return rc;
+}
+
+
+static int freeConcatenationReadOnly(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
+	int rc = 0;
+	
+	/* msf - tbd */
+	return rc;
+}
+
+static int freeHFS(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
+	int rc = 0;
+	
+	/* msf - tbd */	
+	return rc;
+}
+
+static int freeConsole(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
+	int rc = 0;
+	
+	/* msf - tbd */	
+	return rc;
+}
+
+static int freeStdin(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
+	int rc = 0;
+	
+	/* msf - tbd */	
+	return rc;
+}
+
+static int freeDummy(OptInfo_T* optInfo, char* ddName) {
+	int rc = 0;
+	
+	/* msf - tbd */	
+	return rc;
+}
+
+static int freeSteplib(OptInfo_T* optInfo, FileNodeList_T* fileNodeList) {
+	int rc = 0;
+	
+	/* msf - tbd */	
+	return rc;
+}
 
 static int allocPDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
 	__dyn_t ip;
@@ -1032,6 +1147,44 @@ ProgramFailureMsg_T establishDDNames(OptInfo_T* optInfo) {
 	}
 }
 
+
+ProgramFailureMsg_T freeDDNames(OptInfo_T* optInfo) {
+	DDNameList_T* ddNameList = optInfo->ddNameList;
+	int rc;
+	int maxRC = 0;
+
+	while (ddNameList != NULL) {
+		if (ddNameList->isConsole) {
+			rc = freeConsole(optInfo, ddNameList);
+		} else if (ddNameList->isStdin) {
+			rc = freeStdin(optInfo, ddNameList);
+		} else if (ddNameList->isDummy) {
+			rc = freeDummy(optInfo, ddNameList->ddName);
+		} else if (!strcmp(ddNameList->ddName, STEPLIB_DDNAME)) {
+			rc = freeSteplib(optInfo, &ddNameList->fileNodeList);
+		} else if (ddNameList->isHFS) {
+			rc = freeHFS(optInfo, ddNameList);
+		} else if (ddNameList->isConcatenation) {
+			rc = freeConcatenationReadOnly(optInfo, ddNameList);
+		} else {
+			if (hasMemberName(ddNameList->fileNodeList.head)) {
+				rc = freePDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+			} else {
+				rc = freeDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+			}	
+		}
+		if (rc > maxRC) {
+			maxRC = rc;
+		}
+		ddNameList = ddNameList->next;
+	}
+	
+	if (maxRC > 0) {
+		return DDNameFreeFailure;
+	} else {
+		return NoError;
+	}
+}
 ProgramFailureMsg_T printToConsole(OptInfo_T* optInfo) {
 	DDNameList_T* ddNameList = optInfo->ddNameList;
 	while (ddNameList != NULL) {

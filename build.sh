@@ -35,7 +35,7 @@ fi
 export STEPLIB=${CHLQ}.SCCNCMP
 cd bin
 rm -f mvscmd *.o *.lst *.dbg
-c89 -c ${ASM_OPTS} -Wa,list ../src/mvsload.s  >mvsload.lst 
+c89 -c ${ASM_OPTS} -Wa,list ../src/mvsload.s  >mvsload.lst 2>/dev/null 
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsutil.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsargs.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsmsgs.c
@@ -44,5 +44,7 @@ c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvscmd.c
 c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssys.o mvsutil.o mvsload.o mvsmsgs.o
 cp mvscmd //"'"${AUTHHLQ}.${AUTHSFX}\(MVSCMD\)"'"
+vol=`tsocmd listds "'ibmuser.mvscmd.load'" | tail -1n` 2>/dev/null
+opercmd "setprog apf,add,dsn=${AUTHHLQ}.${AUTHSFX},vol=${vol}" >/dev/null 2>&1
 rm -rf mvscmdauth
 ln -e MVSCMD mvscmdauth

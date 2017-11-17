@@ -9,7 +9,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.ADRDSU.DARV1'"\) recfm\(u\) lrecl\(0\) blks
 
 (
  . setcc adrdsuCreateViaDataset;
- mvscmdauth -v --pgm=ADRDSSU --archive=${TESTHLQ}.mvscmd.adrdsu.dar,old --sysin=${TESTHLQ}.mvscmd.adrdsu.cmd --sysprint=* | awk '!/1PAGE 0001|ADR109I|ADR006I|ADR801I|ADR006I|ADR013I|ADR012I/'
+ mvscmdauth -v --pgm=ADRDSSU --archive=${TESTHLQ}.mvscmd.adrdsu.darv1,old --sysin=${TESTHLQ}.mvscmd.adrdsu.cmd --sysprint=* | awk '!/1PAGE 0001|ADR109I|ADR006I|ADR801I|ADR006I|ADR013I|ADR012I/'
  . unsetcc
 
 )
@@ -21,7 +21,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.ADRDSU.DARV2'"\) recfm\(u\) lrecl\(0\) blks
 (
   . setcc adrdsuCreateViaStdin;
   echo " DUMP OUTDD(ARCHIVE) -\n    DS(INCL(${TESTHLQ}.MVSCMD.IEBCOPY.**))" | 
-    mvscmdauth --pgm=ADRDSSU --archive=${TESTHLQ}.mvscmd.adrdsu.dar,old --sysin=stdin --sysprint=stdout |
+    mvscmdauth --pgm=ADRDSSU --archive=${TESTHLQ}.mvscmd.adrdsu.darv2,old --sysin=stdin --sysprint=stdout |
     awk '!/1PAGE 0001|ADR109I|ADR006I|ADR801I|ADR006I|ADR013I|ADR012I/'
  . unsetcc
 )

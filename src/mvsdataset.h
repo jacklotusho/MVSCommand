@@ -89,6 +89,7 @@
 	ProgramFailureMsg_T removeConsoleFiles(OptInfo_T* optInfo);
 	ProgramFailureMsg_T printToConsole(OptInfo_T* optInfo);
 	ProgramFailureMsg_T establishDDNames(OptInfo_T* optInfo);
+	ProgramFailureMsg_T freeDDNames(OptInfo_T* optInfo);	
 	ProgramFailureMsg_T validMVSName(const char* name);
 	ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo);
 #endif

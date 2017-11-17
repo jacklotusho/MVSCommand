@@ -58,7 +58,10 @@
 		ErrorAllocatingSTDIN=39,
 		ErrorStdinWriteFailed=40,
 		ErrorAllocatingHFS=41,
-		ErrorEstablishingEnvironment=42
+		ErrorEstablishingEnvironment=42,
+		DDNameFreeFailure=43,	
+		ErrorFreeingPDSMember=44,	
+		ErrorFreeingDataset=45,		
 	} ProgramFailureMsg_T;
 	
 	/*
@@ -122,6 +125,8 @@
 		InfoStdinRecordTooLong=54,
 		InfoDDNameHFSFile=55,
 		InfoHFSAllocationSucceeded=56,
+		InfoPDSMemberFreeSucceeded=57,
+		InfoDatasetFreeSucceeded=58,		
 	} ProgramInfoMsg_T;
 	
 #ifdef DEBUG
