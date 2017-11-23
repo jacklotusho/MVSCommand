@@ -1,3 +1,6 @@
  LINE-#  SOURCE SECTION                    SRCH DSN: @@HLQ@@.MVSCMD.JCL
+ 
+ 
  SORT                        --------- STRING(S) FOUND -------------------
+ 
       6  //SYSIN    DD DSN=@@HLQ@@.MVSCMD.DFSORT.CMD,DISP=SHR

@@ -1,3 +1,5 @@
 Program size is 8 bytes
 Program loaded at 0xxxx
+IEFBR14 attached. Child pid:xxxx code:0 reason:0
+Waiting on pid:xxxx
 Temporary Dataset SYSPRINT=xxx retained for debug

@@ -3,4 +3,4 @@ DDNames:
   No DDNames specified
 OS Load program IEFBR14 
 Addressing mode: AMODE24
-IEFBR14 run. Return code:0
+Attach Exit code: 0 from IEFBR14

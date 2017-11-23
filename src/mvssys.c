@@ -65,33 +65,11 @@ static void setprogInfo(OptInfo_T* optInfo, ProgramInfo_T* progInfo, unsigned lo
 	}
 }
 
-typedef int (OS_FP)();
-#pragma linkage(OS_FP, OS)
-typedef _Packed struct { short length; char arguments[MAX_ARGS_LENGTH]; } OSOpts_T;
-
-static int call24BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) {
-    OS_FP* fp = (OS_FP*) (progInfo->fp & 0x7FFFFFFF);
-    OSOpts_T opts = { strlen(optInfo->arguments) };
-    int rc;
-
-    memcpy(opts.arguments, optInfo->arguments, opts.length);
-
-    rc = fp(&opts);
-    progInfo->rc = rc;
-
-    if (optInfo->verbose) {
-		printInfo(InfoProgramReturnCode, optInfo->programName, progInfo->rc);
-    }
-	
-	return rc;
-}
-
 #pragma linkage(ATTMVS, OS)
 #pragma map(ATTMVS, "ATTMVS")
 void ATTMVS(int* pgmNameLen, const char* pgmName, int* argsLen, const char* args, void** exitAddr, void** exitParm, int* retVal, int* retCode, int* reasonCode);
 
-
-static int call31BitOr64BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) {
+static int call24BitOr31BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) {
 	char pgmName[MAX_NAME_LEN+1];
 	int pgmNameLen;
 	int argsLen = strlen(optInfo->arguments);
@@ -136,7 +114,8 @@ static int call31BitOr64BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) 
 }
 
 static int call64BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) {
-	int rc;
+	int rc = 16;
+	printf("Need to build mvscmd as 64-bit to enable this.\n");
 	return rc;
 }
 
@@ -150,31 +129,27 @@ void SETDUBDF(int* dubVal, int* retVal, int* retCode, int* reasonCode);
 
 ProgramFailureMsg_T callProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) {
 	ProgramFailureMsg_T rc = NoError;
-	if (progInfo->amode == AMODE24) {
-		progInfo->rc = call24BitProgram(optInfo, progInfo);
+	if (IAm64Bit() && (progInfo->amode == AMODE64)) {
+		progInfo->rc = call64BitProgram(optInfo, progInfo);
 		rc = NoError;
-	} else {
-		if (IAm64Bit() && (progInfo->amode == AMODE64)) {
-			progInfo->rc = call31BitOr64BitProgram(optInfo, progInfo);
+	} else if (!IAm64Bit() && (progInfo->amode == AMODE31 || progInfo->amode == AMODE24)) {
+		int dub=4; /* dub-process-defer */
+		int retVal=6;
+		int retCode=6;
+		int reasonCode=6;
+		SETDUBDF(&dub, &retVal, &retCode, &reasonCode);
+		if (retVal != 0) {
+			rc = ErrorDubbingProgram;
+		} else {
+			progInfo->rc = call24BitOr31BitProgram(optInfo, progInfo);	
 			rc = NoError;
-		} else if (!IAm64Bit() && (progInfo->amode == AMODE31)) {
-			int dub=4; /* dub-process-defer */
-			int retVal=6;
-			int retCode=6;
-			int reasonCode=6;
-			SETDUBDF(&dub, &retVal, &retCode, &reasonCode);
-			if (retVal != 0) {
-				rc = ErrorDubbingProgram;
-			} else {
-				progInfo->rc = call31BitOr64BitProgram(optInfo, progInfo);	
-				rc = NoError;
-			}
-		} else if (IAm64Bit() && (progInfo->amode == AMODE31)) {
-			rc = ErrorRunning31BitModuleWith64BitDriver;
-		} else if (!IAm64Bit() && (progInfo->amode == AMODE64)) {
-			rc = ErrorRunning64BitModuleWith31BitDriver;
 		}
-	}	
+	} else if (IAm64Bit() && (progInfo->amode == AMODE31)) {
+		rc = ErrorRunning31BitModuleWith64BitDriver;
+	} else if (!IAm64Bit() && (progInfo->amode == AMODE64)) {
+		rc = ErrorRunning64BitModuleWith31BitDriver;
+	}
+	
 	if (rc != NoError) {
 		int isAPFAuth = isAPFAuthorized();
 		printError(rc, optInfo->programName, PROG_NAME(isAPFAuth), PROG_NAME(isAPFAuth));

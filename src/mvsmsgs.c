@@ -62,7 +62,13 @@ static const char* ProgramFailureMessage[] = {
 	"Error establishing environment.\n",
 	"Error freeing DDName %s.\n",
 	"Error freeing DDName %s from PDS Member %s(%s).\n",	
-	"Error freeing DDName %s from Dataset %s.\n",		
+	"Error freeing DDName %s from Dataset %s.\n",	
+	"Error %d allocating 24-bit LE heap\n",
+	"Error %d allocating 24-bit storage\n",
+	"Error %d freeing 24-bit LE heap\n",
+	"Error %d freeing 24-bit storage\n",
+	"Error allocating DDName %s to Volume %s.\n",
+	"Error freeing DDName %s from Volume %s.\n",		
 };
 
 static const char* ProgramInfoMessage[] = {
@@ -92,7 +98,7 @@ static const char* ProgramInfoMessage[] = {
 	"Program size is %d bytes\n",
 	"Program loaded at 0x%llX\n",
 	"%s run. Return code:%d\n",
-	"%s attached. Return val:%d code:%d reason:%d\n",
+	"%s attached. Child pid:%d code:%d reason:%d\n",
 	"Waiting on pid:%d\n",
 	"Attach Exit code: %d from %s\n",
 	"OS Load program %s\n",
@@ -105,7 +111,7 @@ static const char* ProgramInfoMessage[] = {
 	" --args=<program-arguments> | -a=<program-arguments> (arguments to pass to the program, e.g. -a='MARGINS(1,72)'. Default is ''\n",
 	" --verbose | -v (verbose messages). Default is off\n",
 	" --debug | -d (even more verbose messages). Default is off.\n",
-	" --<ddname>=<value>[,excl|,old] (specify a dataset, concatenated dataset, PDS member, console or dummy for the given ddname).\n",
+	" --<ddname>=<value>[,excl|,old|,vol|,volume] (specify a dataset, concatenated dataset, PDS member, console, volume or dummy for the given ddname).\n",
 	"  Dataset example: --sysin=IBMUSER.TEST.OBJ: allocate the DDName SYSIN to the dataset IBMUSER.TEST.OBJ\n",
 	"  Concatenated dataset example: --syslib=CEE.SCEELKED:CEE.SCEELKEX: allocate the ddname SYSLIB to the dataset concatenation CEE.SCEELKED:CEE.SCEELKEX\n",
 	"  Console example: --sysprint=*: allocate the DDName SYSPRINT to stdout (which can then be piped to other processes).\n",
@@ -113,7 +119,8 @@ static const char* ProgramInfoMessage[] = {
 	"  stdin example: --sysin=stdin: allocate the DDName SYSIN to an FB 80 temporary sequential dataset that has stdin written to it (stdin can be piped in from other processes).\n",	
 	"  Dummy Dataset example: --sysin=dummy: allocate the DDName SYSIN to DUMMY\n",
 	"  Dataset allocated as 'exclusive' (i.e. DISP=OLD) example: --archive=IBMUSER.MVSCMD.DAR,EXCL\n",
-	" Note: DD-names and the keywords DUMMY, EXCL and OLD are case-insensitive. All other options are case-sensitive\n",
+	"  Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)\n",	
+	" Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive\n",
 	" Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout\n",
 	"  echo \"   CMPCOLM 1:72\" | mvscmd --pgm=isrsupc --args=\"DELTAL,LINECMP\" --newdd=ibmuser.in\\(new\\) --olddd=ibmuser.in\\(old\\) --sysin=stdin --outdd=stdout\n",
 	"Check option <%s>\n",
@@ -125,6 +132,7 @@ static const char* ProgramInfoMessage[] = {
 	"HFS allocation succeeded for %s=%s (%s)\n", 
 	"PDS Member free succeeded for %s=%s(%s)\n",
 	"Dataset free succeeded for %s=%s\n",	
+	",volume",	
 };
 
 
@@ -161,5 +169,6 @@ void printHelp(const char* progName) {
 	printInfo(InfoSyntax16);
 	printInfo(InfoSyntax17);	
 	printInfo(InfoSyntax18);	
-	printInfo(InfoSyntax19);		
+	printInfo(InfoSyntax19);	
+	printInfo(InfoSyntax20);			
 }	

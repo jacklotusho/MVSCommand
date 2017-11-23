@@ -7,7 +7,9 @@ else
 	datasetprefix=$1;
 fi
 (
+ . setcc idcamsListcat
  echo " LISTCAT -\n LEVEL(${datasetprefix}\n" | 
    mvscmdauth --pgm=idcams --sysprint=* --sysin=stdin | 
    awk '/0NONVSAM/ { print $3 }'
+ . unsetcc
 )

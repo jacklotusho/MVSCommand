@@ -62,6 +62,12 @@
 		DDNameFreeFailure=43,	
 		ErrorFreeingPDSMember=44,	
 		ErrorFreeingDataset=45,		
+		ErrorAllocating24BitHeap=46,
+		ErrorAllocating24BitStorage=47,
+		ErrorFreeing24BitStorage=48,
+		ErrorFreeing24BitHeap=49,
+		ErrorAllocatingVolume=50,
+		ErrorFreeingVolume=51,
 	} ProgramFailureMsg_T;
 	
 	/*
@@ -118,15 +124,17 @@
 		InfoSyntax17=47,
 		InfoSyntax18=48,
 		InfoSyntax19=49,
-		InfoCheckOption=50,
-		InfoAPFAuthorization=51,
-		InfoStdinDatasetAllocationSucceeded=52,
-		InfoStdinDDName=53,	
-		InfoStdinRecordTooLong=54,
-		InfoDDNameHFSFile=55,
-		InfoHFSAllocationSucceeded=56,
-		InfoPDSMemberFreeSucceeded=57,
-		InfoDatasetFreeSucceeded=58,		
+		InfoSyntax20=50,
+		InfoCheckOption=51,
+		InfoAPFAuthorization=52,
+		InfoStdinDatasetAllocationSucceeded=53,
+		InfoStdinDDName=54,	
+		InfoStdinRecordTooLong=55,
+		InfoDDNameHFSFile=56,
+		InfoHFSAllocationSucceeded=57,
+		InfoPDSMemberFreeSucceeded=58,
+		InfoDatasetFreeSucceeded=59,
+		InfoVolume=60,
 	} ProgramInfoMsg_T;
 	
 #ifdef DEBUG

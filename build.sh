@@ -26,25 +26,24 @@ fi
 
 . ./setenv.sh
 
-tsocmd "listds '${AUTHHLQ}.${AUTHSFX}'" >/dev/null 2>&1
+tsocmd "listds '${AUTHHLQ}.${AUTHLD}'" >/dev/null 2>&1
 rc=$?
 if [[ ${rc} -gt 0 ]] ; then
-	echo "Dataset ${AUTHHLQ}.${AUTHSFX} must be pre-allocated to a PDSE (program object library)"
+	echo "Dataset ${AUTHHLQ}.${AUTHLD} must be pre-allocated to a PDSE (program object library)"
 	exit 16
 fi 
 export STEPLIB=${CHLQ}.SCCNCMP
 cd bin
 rm -f mvscmd *.o *.lst *.dbg
 c89 -c ${ASM_OPTS} -Wa,list ../src/mvsload.s  >mvsload.lst 2>/dev/null 
-c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsutil.c
-c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsargs.c
-c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsmsgs.c
-c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsdataset.c
-c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvssys.c
-c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),gonum,offset,langlvl\(extended\),list\(./\) ../src/mvscmd.c
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsutil.c
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsargs.c
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsmsgs.c
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsdataset.c
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvssys.c
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvscmd.c
 c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssys.o mvsutil.o mvsload.o mvsmsgs.o
-cp mvscmd //"'"${AUTHHLQ}.${AUTHSFX}\(MVSCMD\)"'"
-vol=`tsocmd listds "'ibmuser.mvscmd.load'" | tail -1n` 2>/dev/null
-opercmd "setprog apf,add,dsn=${AUTHHLQ}.${AUTHSFX},vol=${vol}" >/dev/null 2>&1
+cp mvscmd //"'"${AUTHHLQ}.${AUTHLD}\(MVSCMD\)"'"
 rm -rf mvscmdauth
 ln -e MVSCMD mvscmdauth
+opercmd 'modify lla,refresh' >/dev/null 2>&1

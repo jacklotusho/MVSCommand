@@ -117,7 +117,23 @@ static void DatasetFreeError(OptInfo_T* optInfo, __dyn_t* ip) {
 	char* dsName = ip->__dsname;
 
 	printError(ErrorFreeingDataset, ddName, dsName);
+}
 
+static void VolumeAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
+	char* ddName = ip->__ddname;
+	char* volName = ip->__volser;
+
+	if (optInfo->verbose) {
+		printError(ErrorCodesAllocatingDDName, ip->__errcode, ip->__infocode);
+	}
+	printError(ErrorAllocatingVolume, ddName, volName);	
+}
+
+static void VolumeFreeError(OptInfo_T* optInfo, __dyn_t* ip) {
+	char* ddName = ip->__ddname;
+	char* volName = ip->__volser;
+
+	printError(ErrorFreeingVolume, ddName, volName);
 }
 
 static void HFSAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
@@ -518,17 +534,16 @@ ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo) {
 			entry->isDummy = 1;
 		}
 		return rc;
-	}	
-	
+	}
+		
 	if (option[assignPos+1] == HFS_PATH_CHAR) {
 		rc = addHFSDDName(option, &optPos, optInfo, entry);
 	} else {
 		rc = addDatasetDDName(option, &optPos, optInfo, entry);
-	}
+	}	
 	if (rc != NoError) {
 		return rc;
 	}
-
 	if (option[optPos] == OPTION_CHAR) {
 		const char* subOpt = &option[optPos+1]; 
 		if (optInfo->debug) {
@@ -537,11 +552,14 @@ ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo) {
 
 		if (!strnocasecmp(subOpt, DISP_OLD) || !strnocasecmp(subOpt, DISP_EXCL)) {
 			entry->isExclusive = 1;
+		} else if (!strnocasecmp(subOpt, DD_VOL) || !strnocasecmp(subOpt, DD_VOLUME)) {
+			entry->isVolume = 1;
 		} else {
 			printError(InvalidDatasetOption, optLen-optPos, &option[optPos+1]);	
 			rc = InvalidDatasetOption;
 		}
 	}
+	
 	return rc;
 }
 
@@ -573,6 +591,27 @@ static int freePDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode,
    	}
 	return rc;
 
+}
+
+static int freeVolume(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
+	__dyn_t ip;
+	int rc;
+
+	dyninit(&ip);
+
+	ip.__ddname = ddName; 
+	ip.__volser = fileNode->node.ds.dsName; 
+
+	errno = 0;
+	rc = dynfree(&ip); 
+	if (rc) {
+		VolumeFreeError(optInfo, &ip);
+	} else {
+   		if (optInfo->verbose) {
+   			printInfo(InfoDatasetFreeSucceeded, ddName, fileNode->node.ds.dsName);
+   		}
+   	}
+   	return rc;
 }
 
 static int freeDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
@@ -674,6 +713,27 @@ static int allocPDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode
 	return rc;
 }
 
+static int allocVolume(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
+	__dyn_t ip;
+	int rc;
+
+	dyninit(&ip);
+
+	ip.__ddname = ddName; 
+	ip.__volser = fileNode->node.ds.dsName; 
+
+	errno = 0;
+	rc = dynalloc(&ip); 
+	if (rc) {
+		VolumeAllocationError(optInfo, &ip);
+	} else {
+   		if (optInfo->verbose) {
+   			printInfo(InfoDatasetAllocationSucceeded, ddName, fileNode->node.ds.dsName);
+   		}
+   	}
+	return rc;	
+}
+
 static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
 	__dyn_t ip;
 	int rc;
@@ -761,8 +821,15 @@ static int allocConsole(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
 	ip.__dsname = fileNode->node.ds.dsName;
 	ip.__dsorg  = __DSORG_PS;
 	ip.__normdisp = __DISP_CATLG;
+
+#if VARIABLE	
 	ip.__lrecl  = 137;
 	ip.__recfm  = _VB_ + _A_;
+#else
+	ip.__lrecl  = 121;
+	ip.__recfm  = _FB_ + _A_;
+#endif
+
 	ip.__status = __DISP_NEW; 
 	ip.__alcunit = __TRK;
 	ip.__primary = 100;
@@ -1088,6 +1155,9 @@ static void printDDNames(DDNameList_T* ddNameList) {
 				if (ddNameList->isExclusive) {
 					printInfo(InfoExclusive);
 				}
+				if (ddNameList->isVolume) {
+					printInfo(InfoVolume);
+				}
 				fileNode = fileNode->next;
 				if (fileNode != NULL) {
 					printInfo(InfoConcatenationSeparator);
@@ -1131,7 +1201,11 @@ ProgramFailureMsg_T establishDDNames(OptInfo_T* optInfo) {
 			if (hasMemberName(ddNameList->fileNodeList.head)) {
 				rc = allocPDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
 			} else {
-				rc = allocDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+				if (ddNameList->isVolume) {
+					rc = allocVolume(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
+				} else {
+					rc = allocDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+				}
 			}	
 		}
 		if (rc > maxRC) {
@@ -1170,7 +1244,11 @@ ProgramFailureMsg_T freeDDNames(OptInfo_T* optInfo) {
 			if (hasMemberName(ddNameList->fileNodeList.head)) {
 				rc = freePDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
 			} else {
-				rc = freeDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+				if (ddNameList->isVolume) {
+					rc = freeVolume(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
+				} else {
+					rc = freeDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+				}
 			}	
 		}
 		if (rc > maxRC) {

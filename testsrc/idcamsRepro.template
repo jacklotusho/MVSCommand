@@ -10,6 +10,8 @@ OS Load program IDCAMS
 Program is APF authorized
 Addressing mode: AMODE31
 Attach Exit code: 0 from IDCAMS
+PDS Member free succeeded for DATAIN=@@HLQ@@.MVSCMD.IDCAMS.IN(IDCAMS)
+PDS Member free succeeded for SYSIN=@@HLQ@@.MVSCMD.IDCAMS.CMD(DEFINE)
 0        
   DEFINE CLUSTER (NAME (@@HLQ@@.MVSCMD.IDCAMS.VSAM) -
   VOLUMES(******) CYLINDERS(1 1) -

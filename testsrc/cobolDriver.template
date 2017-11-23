@@ -41,3 +41,21 @@ PDS Member allocation succeeded for SYSLIN=@@HLQ@@.MVSCMD.COBOL.OBJ(COBOL)
 OS Load program IGYCRCTL
 Addressing mode: AMODE31
 Attach Exit code: 0 from IGYCRCTL
+Dataset free succeeded for SYSUT15=@@HLQ@@.MVSCMD.COBOL.SYSUT15
+Dataset free succeeded for SYSUT14=@@HLQ@@.MVSCMD.COBOL.SYSUT14
+Dataset free succeeded for SYSUT13=@@HLQ@@.MVSCMD.COBOL.SYSUT13
+Dataset free succeeded for SYSUT12=@@HLQ@@.MVSCMD.COBOL.SYSUT12
+Dataset free succeeded for SYSUT11=@@HLQ@@.MVSCMD.COBOL.SYSUT11
+Dataset free succeeded for SYSUT10=@@HLQ@@.MVSCMD.COBOL.SYSUT10
+Dataset free succeeded for SYSUT9=@@HLQ@@.MVSCMD.COBOL.SYSUT9
+Dataset free succeeded for SYSUT8=@@HLQ@@.MVSCMD.COBOL.SYSUT8
+Dataset free succeeded for SYSUT7=@@HLQ@@.MVSCMD.COBOL.SYSUT7
+Dataset free succeeded for SYSUT6=@@HLQ@@.MVSCMD.COBOL.SYSUT6
+Dataset free succeeded for SYSUT5=@@HLQ@@.MVSCMD.COBOL.SYSUT5
+Dataset free succeeded for SYSUT4=@@HLQ@@.MVSCMD.COBOL.SYSUT4
+Dataset free succeeded for SYSUT3=@@HLQ@@.MVSCMD.COBOL.SYSUT3
+Dataset free succeeded for SYSUT2=@@HLQ@@.MVSCMD.COBOL.SYSUT2
+Dataset free succeeded for SYSUT1=@@HLQ@@.MVSCMD.COBOL.SYSUT1
+Dataset free succeeded for SYSMDECK=@@HLQ@@.MVSCMD.COBOL.SYSMDECK
+PDS Member free succeeded for SYSIN=@@HLQ@@.MVSCMD.COBOL(MAIN)
+PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.COBOL.OBJ(COBOL)

@@ -31,6 +31,7 @@ static ProgramFailureMsg_T processPgm(const char* value, Option_T* opt, OptInfo_
 	ProgramFailureMsg_T pf;
 	
 	if (value[0] != ASSIGN_CHAR) {
+		printError(NoMVSName);		
 		return NoMVSName;
 	}
 	++value;

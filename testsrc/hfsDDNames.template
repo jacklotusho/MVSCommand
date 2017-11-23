@@ -24,6 +24,9 @@ Dataset allocation succeeded for SORTIN01=@@HLQ@@.MVSCMD.DFSORT.MASTER
 OS Load program SORT    
 Addressing mode: AMODE31
 Attach Exit code: 0 from SORT
+Dataset free succeeded for SYSIN=@@HLQ@@.MVSCMD.DFSORT.CMD
+Dataset free succeeded for SORTIN02=@@HLQ@@.MVSCMD.DFSORT.NEW
+Dataset free succeeded for SORTIN01=@@HLQ@@.MVSCMD.DFSORT.MASTER
 1           MERGE FORMAT=CH,FIELDS=(1,9,A)                                                                               
 Child process did not complete correctly for SORT.
  ICE185A 0 AN S614  ABEND WAS ISSUED BY DFSORT, ANOTHER PROGRAM OR AN EXIT (PHASE M 4)                                   
@@ -34,4 +37,4 @@ DDNames:
 HFS allocation succeeded for SYSLONG=/tmp/mvscmd0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 (rw)
 OS Load program IEFBR14 
 Addressing mode: AMODE24
-IEFBR14 run. Return code:0
+Attach Exit code: 0 from IEFBR14

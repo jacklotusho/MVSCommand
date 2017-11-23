@@ -6,7 +6,7 @@ Syntax: mvscmd [<args>]
  --args=<program-arguments> | -a=<program-arguments> (arguments to pass to the program, e.g. -a='MARGINS(1,72)'. Default is ''
  --verbose | -v (verbose messages). Default is off
  --debug | -d (even more verbose messages). Default is off.
- --<ddname>=<value>[,excl|,old] (specify a dataset, concatenated dataset, PDS member, console or dummy for the given ddname).
+ --<ddname>=<value>[,excl|,old|,vol|,volume] (specify a dataset, concatenated dataset, PDS member, console, volume or dummy for the given ddname).
   Dataset example: --sysin=IBMUSER.TEST.OBJ: allocate the DDName SYSIN to the dataset IBMUSER.TEST.OBJ
   Concatenated dataset example: --syslib=CEE.SCEELKED:CEE.SCEELKEX: allocate the ddname SYSLIB to the dataset concatenation CEE.SCEELKED:CEE.SCEELKEX
   Console example: --sysprint=*: allocate the DDName SYSPRINT to stdout (which can then be piped to other processes).
@@ -14,7 +14,8 @@ Syntax: mvscmd [<args>]
   stdin example: --sysin=stdin: allocate the DDName SYSIN to an FB 80 temporary sequential dataset that has stdin written to it (stdin can be piped in from other processes).
   Dummy Dataset example: --sysin=dummy: allocate the DDName SYSIN to DUMMY
   Dataset allocated as 'exclusive' (i.e. DISP=OLD) example: --archive=IBMUSER.MVSCMD.DAR,EXCL
- Note: DD-names and the keywords DUMMY, EXCL and OLD are case-insensitive. All other options are case-sensitive
+  Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
+ Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
  Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
   echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
 Syntax: mvscmd [<args>]
@@ -25,7 +26,7 @@ Syntax: mvscmd [<args>]
  --args=<program-arguments> | -a=<program-arguments> (arguments to pass to the program, e.g. -a='MARGINS(1,72)'. Default is ''
  --verbose | -v (verbose messages). Default is off
  --debug | -d (even more verbose messages). Default is off.
- --<ddname>=<value>[,excl|,old] (specify a dataset, concatenated dataset, PDS member, console or dummy for the given ddname).
+ --<ddname>=<value>[,excl|,old|,vol|,volume] (specify a dataset, concatenated dataset, PDS member, console, volume or dummy for the given ddname).
   Dataset example: --sysin=IBMUSER.TEST.OBJ: allocate the DDName SYSIN to the dataset IBMUSER.TEST.OBJ
   Concatenated dataset example: --syslib=CEE.SCEELKED:CEE.SCEELKEX: allocate the ddname SYSLIB to the dataset concatenation CEE.SCEELKED:CEE.SCEELKEX
   Console example: --sysprint=*: allocate the DDName SYSPRINT to stdout (which can then be piped to other processes).
@@ -33,7 +34,8 @@ Syntax: mvscmd [<args>]
   stdin example: --sysin=stdin: allocate the DDName SYSIN to an FB 80 temporary sequential dataset that has stdin written to it (stdin can be piped in from other processes).
   Dummy Dataset example: --sysin=dummy: allocate the DDName SYSIN to DUMMY
   Dataset allocated as 'exclusive' (i.e. DISP=OLD) example: --archive=IBMUSER.MVSCMD.DAR,EXCL
- Note: DD-names and the keywords DUMMY, EXCL and OLD are case-insensitive. All other options are case-sensitive
+  Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
+ Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
  Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
   echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
 Syntax: mvscmd [<args>]
@@ -44,7 +46,7 @@ Syntax: mvscmd [<args>]
  --args=<program-arguments> | -a=<program-arguments> (arguments to pass to the program, e.g. -a='MARGINS(1,72)'. Default is ''
  --verbose | -v (verbose messages). Default is off
  --debug | -d (even more verbose messages). Default is off.
- --<ddname>=<value>[,excl|,old] (specify a dataset, concatenated dataset, PDS member, console or dummy for the given ddname).
+ --<ddname>=<value>[,excl|,old|,vol|,volume] (specify a dataset, concatenated dataset, PDS member, console, volume or dummy for the given ddname).
   Dataset example: --sysin=IBMUSER.TEST.OBJ: allocate the DDName SYSIN to the dataset IBMUSER.TEST.OBJ
   Concatenated dataset example: --syslib=CEE.SCEELKED:CEE.SCEELKEX: allocate the ddname SYSLIB to the dataset concatenation CEE.SCEELKED:CEE.SCEELKEX
   Console example: --sysprint=*: allocate the DDName SYSPRINT to stdout (which can then be piped to other processes).
@@ -52,7 +54,8 @@ Syntax: mvscmd [<args>]
   stdin example: --sysin=stdin: allocate the DDName SYSIN to an FB 80 temporary sequential dataset that has stdin written to it (stdin can be piped in from other processes).
   Dummy Dataset example: --sysin=dummy: allocate the DDName SYSIN to DUMMY
   Dataset allocated as 'exclusive' (i.e. DISP=OLD) example: --archive=IBMUSER.MVSCMD.DAR,EXCL
- Note: DD-names and the keywords DUMMY, EXCL and OLD are case-insensitive. All other options are case-sensitive
+  Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
+ Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
  Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
   echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
 Syntax: mvscmd [<args>]
@@ -63,7 +66,7 @@ Syntax: mvscmd [<args>]
  --args=<program-arguments> | -a=<program-arguments> (arguments to pass to the program, e.g. -a='MARGINS(1,72)'. Default is ''
  --verbose | -v (verbose messages). Default is off
  --debug | -d (even more verbose messages). Default is off.
- --<ddname>=<value>[,excl|,old] (specify a dataset, concatenated dataset, PDS member, console or dummy for the given ddname).
+ --<ddname>=<value>[,excl|,old|,vol|,volume] (specify a dataset, concatenated dataset, PDS member, console, volume or dummy for the given ddname).
   Dataset example: --sysin=IBMUSER.TEST.OBJ: allocate the DDName SYSIN to the dataset IBMUSER.TEST.OBJ
   Concatenated dataset example: --syslib=CEE.SCEELKED:CEE.SCEELKEX: allocate the ddname SYSLIB to the dataset concatenation CEE.SCEELKED:CEE.SCEELKEX
   Console example: --sysprint=*: allocate the DDName SYSPRINT to stdout (which can then be piped to other processes).
@@ -71,6 +74,7 @@ Syntax: mvscmd [<args>]
   stdin example: --sysin=stdin: allocate the DDName SYSIN to an FB 80 temporary sequential dataset that has stdin written to it (stdin can be piped in from other processes).
   Dummy Dataset example: --sysin=dummy: allocate the DDName SYSIN to DUMMY
   Dataset allocated as 'exclusive' (i.e. DISP=OLD) example: --archive=IBMUSER.MVSCMD.DAR,EXCL
- Note: DD-names and the keywords DUMMY, EXCL and OLD are case-insensitive. All other options are case-sensitive
+  Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
+ Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
  Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
   echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout

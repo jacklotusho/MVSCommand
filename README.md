@@ -1,7 +1,5 @@
 ## Synopsis
 
-[![Join the chat at https://gitter.im/MVSCommand/Lobby](https://badges.gitter.im/MVSCommand/Lobby.svg)](https://gitter.im/MVSCommand/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 This project enables z/OS developers to access MVS commands like IEBCOPY and IDCAMS from the Unix System Services environment.
 +[![Join the chat at https://gitter.im/MVSCommand/Lobby](https://badges.gitter.im/MVSCommand/Lobby.svg)](https://gitter.im/MVSCommand/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  +
@@ -26,6 +24,7 @@ This made me wonder why we couldn't just run the MVS program from USS directly.
 To install:
 - copy the files to z/OS Unix System Services directory. For this example, we assume it is /u/ibmuser/MVSCommand
 - cd to the directory (/u/ibmuser/MVSCommand)
+- determine what program object library (PDSE) that you want to write the MVSCMD authorized program to. It needs to already be in your LLA (Library LookAside) list
 - edit setenv.sh to point to the various MVS programs that will be tested, and to specify where your code was copied to. 
 - edit build.sh if required to point to your C compiler and assembler, then run the script to build the program.
 - run build.sh: build.sh
@@ -41,14 +40,14 @@ To run the tests:
 - cd to the directory (e.g. /u/ibmuser/MVSCommand)
 - runTests.sh
 
-This will write results to the screen as it runs the testcases in the tests sub-directory. At this point, you may see messages about the
-volume label being different and if you did not create mvscmdauth, you will see failures for authorized programs like ADRDSU
+This will write results to the screen as it runs the testcases in the tests sub-directory. At this point, you may see failures
+in the forceFail tests if you didn't build with DEBUG.
 
 ## Contributors
 
 Mike Fulton (IBM Canada) is the sole contributor at this point. I am happy to change this :)
 
-The code still needs work. Error messages can (always) be improved and there are missing features people may need.
+The code still needs work. Error messages can (always) be improved and there are missing features people may need. (for example, 64-bit utilities)
 If anyone wants to contribute, please reach out to fultonm@ca.ibm.com (Mike Fulton)
 
 ## License

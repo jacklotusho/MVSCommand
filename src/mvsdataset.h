@@ -35,6 +35,8 @@
 	#define STDIN_NAME "stdin"
 	#define DISP_EXCL "excl"
 	#define DISP_OLD  "old"
+	#define DD_VOL    "vol"	
+	#define DD_VOLUME  "volume"		
 	
 	#define DATASET_PROBABLY_DOES_NOT_EXIST 0x1708
 	
@@ -82,6 +84,7 @@
 		int isDummy:1;	
 		int isConcatenation:1;
 		int isExclusive:1;
+		int isVolume:1;		
 	} DDNameList_T;
 	
 	#include "mvsargs.h"
