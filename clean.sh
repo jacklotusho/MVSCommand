@@ -3,6 +3,7 @@ rm -f bin/*.lst
 rm -f bin/*.dbg
 rm -f bin/mvscmd
 rm -f bin/mvscmdauth
+rm -f bin/mvstmp
 rm -f tests/*.expected
 rm -f tests/*.actual
 rm -rf tests/CEE*

@@ -20,6 +20,7 @@
 
 #include "mvsmsgs.h"
 #include "mvsdataset.h"
+#include "mvstempdataset.h"
 #include "mvsargs.h"
 #include "mvsutil.h"
 
@@ -790,28 +791,13 @@ static int allocHFS(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
    	}
 	return rc;
 }
-
-static char* temporaryMVSSequentialDataset(char* buffer) {
-	char tmpNamBuffer[MAX_DATASET_LEN+3];
-	char* result = tmpnam(tmpNamBuffer);
-	int len = strlen(result);
-	if (result == NULL) { return result; }
-	
-	/*
-	 * remove the single quotes that surround the name
-	 */
-	memmove(buffer, &tmpNamBuffer[1], len-2);
-	buffer[len-2] = '\0';
-	
-	return buffer;
-}	
 	
 static int allocConsole(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
 	__dyn_t ip;
 	int rc;
 
 	FileNode_T* fileNode = ddNameList->fileNodeList.head;
-	temporaryMVSSequentialDataset(fileNode->node.ds.dsName);
+	temporaryMVSSequentialDataset(TEMP_PREFIX, fileNode->node.ds.dsName);
 	if (fileNode->node.ds.dsName == NULL) {
 		return -1;
 	}
@@ -853,7 +839,7 @@ static int allocStdin(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
 	int rc;
 
 	FileNode_T* fileNode = ddNameList->fileNodeList.head;
-	temporaryMVSSequentialDataset(fileNode->node.ds.dsName);
+	temporaryMVSSequentialDataset(TEMP_PREFIX, fileNode->node.ds.dsName);
 	if (fileNode->node.ds.dsName == NULL) {
 		return -1;
 	}

@@ -35,6 +35,10 @@ fi
 export STEPLIB=${CHLQ}.SCCNCMP
 cd bin
 rm -f mvscmd *.o *.lst *.dbg
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvstmp.c 
+c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvstempdataset.c
+c89 -o mvstmp ${LINK_OPTS} -Wl,xplink mvstmp.o mvstempdataset.o
+   
 c89 -c ${ASM_OPTS} -Wa,list ../src/mvsload.s  >mvsload.lst 2>/dev/null 
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsutil.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsargs.c
@@ -42,7 +46,7 @@ c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(ex
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvsdataset.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvssys.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvscmd.c
-c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssys.o mvsutil.o mvsload.o mvsmsgs.o
+c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssys.o mvsutil.o mvsload.o mvsmsgs.o mvstempdataset.o
 cp mvscmd //"'"${AUTHHLQ}.${AUTHLD}\(MVSCMD\)"'"
 rm -rf mvscmdauth
 ln -e MVSCMD mvscmdauth
