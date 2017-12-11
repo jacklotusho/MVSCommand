@@ -9,7 +9,7 @@ This project enables z/OS developers to access MVS commands like IEBCOPY and IDC
 
 Here is an example of **mvscmd** being used to copy dataset IBMUSER.TEST.C to IBMUSER.TEST.COPY, writing output from IEBCOPY to the screen
 
-mvscmd --pgm=iebcopy --sysprint=* --sysin=dummy --sysut1=ibmuser.test.c --sysut2=ibmuser.test.copy
+mvscmd --pgm=IEBCOPY --sysprint=* --sysin=dummy --sysut1=ibmuser.test.c --sysut2=ibmuser.test.copy
 
 ## Motivation
 
