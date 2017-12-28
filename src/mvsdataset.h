@@ -28,7 +28,7 @@
 	#define MAX_DDNAME_LEN      (8)
 	#define MAX_NAME_LEN (8)
 	
-	#define TEMP_PREFIX "MVSCMD"
+	#define TEMP_PREFIX (getlogin())
 	
 	#define STEPLIB_DDNAME "STEPLIB"
 	#define DUMMY_NAME "DUMMY"
