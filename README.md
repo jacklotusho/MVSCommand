@@ -20,11 +20,11 @@ poll until the JCL completes, then interpret the results from USS. This is annoy
 This made me wonder why we couldn't just run the MVS program from USS directly. 
 
 ## Installation
-
+Note: You no longer need to use a PDSE for the mvscmdauth. The build has been changed to set the APF-authorized bit on for the mvscmdauth executable in the HFS
+My thanks to Zhang Hong (Tony) Chen for this improvement. 
 To install:
 - copy the files to z/OS Unix System Services directory. For this example, we assume it is /u/ibmuser/MVSCommand
 - cd to the directory (/u/ibmuser/MVSCommand)
-- determine what program object library (PDSE) that you want to write the MVSCMD authorized program to. It needs to already be in your LLA (Library LookAside) list
 - edit setenv.sh to point to the various MVS programs that will be tested, and to specify where your code was copied to. 
 - edit build.sh if required to point to your C compiler and assembler, then run the script to build the program.
 - run build.sh: build.sh
@@ -38,9 +38,10 @@ To get started reading the code, begin in mvscmd.c, which has 'main' and drives 
 
 To run the tests:
 - cd to the directory (e.g. /u/ibmuser/MVSCommand)
+- crtTests.sh
 - runTests.sh
 
-This will write results to the screen as it runs the testcases in the tests sub-directory. At this point, you may see failures
+This will write results to the screen as it runs the testcases in the tests sub-directory. You will see failures
 in the forceFail tests if you didn't build with DEBUG.
 
 ## Contributors

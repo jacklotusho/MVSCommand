@@ -1,3 +1,9 @@
+copyToDataset() {
+	src=$1
+        dst=$2
+        cat $1 | sed 's/[ ]*$//' >/tmp/mvscmd.$1; cp /tmp/mvscmd.$1 "//'${2}'"
+        return $?
+}
 #
 # This will create the test datasets and copy contents in from testsrc
 # used by runTests.sh
@@ -58,27 +64,27 @@ done
 # Copy the files from zFS into their respective datasets
 
 cp bind.o "//'"${TESTHLQ}".MVSCMD.BIND.OBJ(BIND)'"
-cp main.pli "//'"${TESTHLQ}".MVSCMD.PLI(MAIN)'"
-cp main.cobol "//'"${TESTHLQ}".MVSCMD.COBOL(MAIN)'"
-cp main.c "//'"${TESTHLQ}".MVSCMD.C(MAIN)'"
-cp err.c "//'"${TESTHLQ}".MVSCMD.C(ERR)'"
+copyToDataset main.pli "${TESTHLQ}.MVSCMD.PLI(MAIN)"
+copyToDataset main.cobol "${TESTHLQ}.MVSCMD.COBOL(MAIN)"
+copyToDataset main.c "${TESTHLQ}.MVSCMD.C(MAIN)"
+copyToDataset err.c "${TESTHLQ}.MVSCMD.C(ERR)"
 
-cp iebcopy1.in "//'"${TESTHLQ}".MVSCMD.IEBCOPY.IN(IEBCOPY1)'"
-cp iebcopy2.in "//'"${TESTHLQ}".MVSCMD.IEBCOPY.IN(IEBCOPY2)'"
-cp iebcopy3.in "//'"${TESTHLQ}".MVSCMD.IEBCOPY.IN(IEBCOPY3)'"
-cp idcams.in   "//'"${TESTHLQ}".MVSCMD.IDCAMS.IN(IDCAMS)'"
-cp oldfile.in  "//'"${TESTHLQ}".MVSCMD.SUPERCE.IN(OLDFILE)'"
-cp newfile.in  "//'"${TESTHLQ}".MVSCMD.SUPERCE.IN(NEWFILE)'"
+copyToDataset iebcopy1.in "${TESTHLQ}.MVSCMD.IEBCOPY.IN(IEBCOPY1)"
+copyToDataset iebcopy2.in "${TESTHLQ}.MVSCMD.IEBCOPY.IN(IEBCOPY2)"
+copyToDataset iebcopy3.in "${TESTHLQ}.MVSCMD.IEBCOPY.IN(IEBCOPY3)"
+copyToDataset idcams.in   "${TESTHLQ}.MVSCMD.IDCAMS.IN(IDCAMS)"
+copyToDataset oldfile.in  "${TESTHLQ}.MVSCMD.SUPERCE.IN(OLDFILE)"
+copyToDataset newfile.in  "${TESTHLQ}.MVSCMD.SUPERCE.IN(NEWFILE)"
 
-cp delete.cmd    "//'"${TESTHLQ}".MVSCMD.IDCAMS.CMD(DELETE)'"
-cp define.cmd    "//'"${TESTHLQ}".MVSCMD.IDCAMS.CMD(DEFINE)'"
-cp superce.cmd   "//'"${TESTHLQ}".MVSCMD.SUPERCE.CMD(SUPERCE)'"
-cp copysome.cmd  "//'"${TESTHLQ}".MVSCMD.IEBCOPY.CMD(COPYSOME)'"
+copyToDataset delete.cmd    "${TESTHLQ}.MVSCMD.IDCAMS.CMD(DELETE)"
+copyToDataset define.cmd    "${TESTHLQ}.MVSCMD.IDCAMS.CMD(DEFINE)"
+copyToDataset superce.cmd   "${TESTHLQ}.MVSCMD.SUPERCE.CMD(SUPERCE)"
+copyToDataset copysome.cmd  "${TESTHLQ}.MVSCMD.IEBCOPY.CMD(COPYSOME)"
 
-cp dfsort.cmd     "//'"${TESTHLQ}".MVSCMD.DFSORT.CMD'"
-cp dfsort.master  "//'"${TESTHLQ}".MVSCMD.DFSORT.MASTER'"
-cp dfsort.new     "//'"${TESTHLQ}".MVSCMD.DFSORT.NEW'"
+copyToDataset dfsort.cmd     "${TESTHLQ}.MVSCMD.DFSORT.CMD"
+copyToDataset dfsort.master  "${TESTHLQ}.MVSCMD.DFSORT.MASTER"
+copyToDataset dfsort.new     "${TESTHLQ}.MVSCMD.DFSORT.NEW"
 
-cp adrdsu.cmd     "//'"${TESTHLQ}".MVSCMD.ADRDSU.CMD'"
-cp tsoxmit.cmd    "//'"${TESTHLQ}".MVSCMD.TSO.CMD(XMIT)'"
-cp tsorcv.cmd     "//'"${TESTHLQ}".MVSCMD.TSO.CMD(RCV)'"
+copyToDataset adrdsu.cmd     "${TESTHLQ}.MVSCMD.ADRDSU.CMD"
+copyToDataset tsoxmit.cmd    "${TESTHLQ}.MVSCMD.TSO.CMD(XMIT)"
+copyToDataset tsorcv.cmd     "${TESTHLQ}.MVSCMD.TSO.CMD(RCV)"
