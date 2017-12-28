@@ -17,6 +17,8 @@
 #include <string.h>
 #define _POSIX_SOURCE
 #include <sys/stat.h>
+#define _XOPEN_SOURCE
+#include <unistd.h>
 
 #include "mvsmsgs.h"
 #include "mvsdataset.h"
