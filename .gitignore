@@ -3,4 +3,4 @@
 *.lst
 bin/
 tests/*.expected
-tests/*.cmd
+testsrc/*.cmd
