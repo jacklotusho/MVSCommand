@@ -4,6 +4,7 @@ copyToDataset() {
 	iconv -fISO8859-1 -tIBM-1047 <$1 | sed 's/[ ]*$//' >/tmp/mvscmd.$1; cp -T /tmp/mvscmd.$1 "//'${2}'"
         return $?
 }
+
 #
 # This will create the test datasets and copy contents in from testsrc
 # used by runTests.sh

@@ -2,7 +2,6 @@
 # Set up the mvscmd environment.
 # NOTE: Before running this script, you need to have modified this file to match your z/OS system
 #
-#
 # The following environment variables must be set up in order to install mvscmd
 #
 export MVSCOMMAND_ROOT=${TOOLS_ROOT}/src/MVSCommand   # Location where mvscmd installed
