@@ -2,3 +2,5 @@
 *~
 *.lst
 bin/
+tests/*.expected
+tests/*.cmd
