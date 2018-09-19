@@ -13,7 +13,7 @@ export PATH=${MVSCOMMAND_ROOT}/bin:$PATH
 # The following environment variables are required if you want to develop and test mvscmd
 #
 
-export TESTHLQ=myid                            # High Level qualifier test datasets created under
+export TESTHLQ=TSTRADM                            # High Level qualifier test datasets created under
 export LEHLQ=CEE                               # High Level qualifier for LE datasets (SCEELKED, SCEELKEX, SCEERUN, SCEERUN2)
 export COBOLHLQ=IGY610                         # High Level qualifier for COBOL compiler datasets (SIGYCOMP)
 export PLIHLQ=IEL510                           # High Level qualifier for PL/I compiler datasets (SIBMZCMP)
