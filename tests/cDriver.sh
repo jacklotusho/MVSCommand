@@ -6,7 +6,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.C.OBJ'"\) recfm\(f,b\) lrecl\(80\) dsorg\(p
 (
  export STEPLIB=${CHLQ}.SCCNCMP;
  . setcc cCompilation;
- mvscmd -v --pgm="CCNDRVR" --args="/CXX" --syslin=${TESTHLQ}.mvscmd.c.obj\(main\) --sysin=${TESTHLQ}.mvscmd.c\(main\) --sysprint=*
+ mvscmd -v --pgm="CCNDRVR" --args="/CXX FLAG(E)" --syslin=${TESTHLQ}.mvscmd.c.obj\(main\) --sysin=${TESTHLQ}.mvscmd.c\(main\) --sysprint=*
  . unsetcc
 )
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.C.OBJ'") >/dev/null 2>&1
