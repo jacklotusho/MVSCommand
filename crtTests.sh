@@ -1,7 +1,8 @@
+#!/bin/sh
 copyToDataset() {
 	src=$1
         dst=$2
-	iconv -fISO8859-1 -tIBM-1047 <$1 | sed 's/[ ]*$//' >/tmp/mvscmd.$1; cp /tmp/mvscmd.$1 "//'${2}'"
+	sed 's/[ ]*$//' <$1 >/tmp/mvscmd.ebcdic.$1; chtag -t -cIBM-1047 /tmp/mvscmd.ebcdic.$1; cp /tmp/mvscmd.ebcdic.$1 "//'${2}'"
         return $?
 }
 

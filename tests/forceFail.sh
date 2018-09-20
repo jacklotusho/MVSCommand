@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run paths that force a failure that could not otherwise be tested (set an environment variable to force the failure)
 #

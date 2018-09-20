@@ -1,3 +1,4 @@
+#!/bin/sh
 . setcc ConcatenationError
 mvscmd -v --joblib=SYS1.PARMLIB
 . unsetcc

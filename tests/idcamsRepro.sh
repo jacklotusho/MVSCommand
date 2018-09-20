@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run IDCAMS three 3 times. 
 # First to delete a VSAM dataset, redirecting errors (such as dataset does not exist) to /dev/null.

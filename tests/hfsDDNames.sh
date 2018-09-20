@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run the C compiler to test that HFS DD names work properly
 # Then run DFSORT to test that output DD names properly have the 'WRONLY' set

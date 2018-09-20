@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # simple program that lists datasets that start with a prefix (enter the prefix in uppercase) 
 #

@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Set up the mvscmd environment.
 # NOTE: Before running this script, you need to have modified this file to match your z/OS system

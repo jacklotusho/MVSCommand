@@ -1,3 +1,4 @@
+#!/bin/sh
 . ./setenv.sh 
 cd tests
 rm -f *.actual

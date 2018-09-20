@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Runs the C compiler against code that has an error in it
 #

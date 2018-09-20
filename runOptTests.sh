@@ -1,3 +1,4 @@
+#!/bin/sh
 . ./setenv.sh 
 . ./setoptenv.sh
 cd opttests

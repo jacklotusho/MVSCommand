@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Merge 2 sequential datasets (master and new) and write them out to a new dataset (merge)
 #

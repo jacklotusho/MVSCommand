@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Runs the C compiler on a simple source file, writing to the console
 #

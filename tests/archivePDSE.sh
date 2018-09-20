@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Use IEBCOPY to archive a PDSE into a sequential dataset suitable for (binary) transmission via FTP, SCP, XMIT, ...
 # The example also restores the PDSE and then runs the programs to ensure they are ok.

@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Test error scenarios for mvscmd
 #

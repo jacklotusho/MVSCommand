@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run batch TSO (IKJEFT01) to archive a PDSE of 2 programs, then delete the PDSE, then restore it, then run the programs to ensure the restore worked.
 # Pros of IKJEFT01 over ADRDSU and IEBCOPY: It is the most common way to archive/restore a dataset on z/OS

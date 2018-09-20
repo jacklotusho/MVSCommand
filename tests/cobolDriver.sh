@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Runs the COBOL compiler on a simple program. Unfortunately, the COBOL compiler needs a whole bunch of 
 # work datasets in order to operate. This example writes the listing to dummy (because it can).

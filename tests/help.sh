@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # test that help comes out using -? -h --help
 #
