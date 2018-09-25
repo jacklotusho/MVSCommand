@@ -60,7 +60,7 @@ done
 extension="cmd"
 tgtdir="./"
 for f in *.cmdtemplate; do
-  xx=$(basename ${f}  .cmdtemplate); sed -e "s/@@HLQ@@/${TESTHLQ}/g" ${f} >${tgtdir}/${xx}.${extension}
+  xx=$(basename ${f}  .cmdtemplate); sed -e "s/@@HLQ@@/${TESTHLQ}/g" ${f} | sed "s/@@TMPVOL@@/${TMPVOL}/g" >${tgtdir}/${xx}.${extension}
 done
 
 # Copy the files from zFS into their respective datasets

@@ -10,13 +10,14 @@ export CHLQ=CBC                                # High Level qualifier for C/C++ 
 export PATH=${MVSCOMMAND_ROOT}/bin:$PATH
 
 #
-# The following environment variables are required if you want to develop and test mvscmd
+# The following environment variables are only required if you want to develop and test mvscmd
 #
 
 export TESTHLQ=TSTRADM                            # High Level qualifier test datasets created under
 export LEHLQ=CEE                               # High Level qualifier for LE datasets (SCEELKED, SCEELKEX, SCEERUN, SCEERUN2)
 export COBOLHLQ=IGY610                         # High Level qualifier for COBOL compiler datasets (SIGYCOMP)
-export PLIHLQ=IEL510                           # High Level qualifier for PL/I compiler datasets (SIBMZCMP)
+export PLIHLQ=IEL520                           # High Level qualifier for PL/I compiler datasets (SIBMZCMP)
 export DBGHLQ=EQAE00                           # High Level qualifier for Code Coverage (optional)
 
 export DBGLIB=${DBGHLQ}.SEQAMOD:${TESTHLQ}.CEEV2R2.CEEBINIT
+export TMPVOL=USER10                           # Temporary volume to write VSAM datasets to
