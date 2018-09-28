@@ -1,7 +1,8 @@
 *.[oa]
 *~
 *.lst
-bin/
 tests/*.expected
 tests/*.actual
 testsrc/*.cmd
+mvscmd
+mvscmdauth
