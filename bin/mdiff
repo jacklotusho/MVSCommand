@@ -1,6 +1,8 @@
 #!/bin/sh
 #
-#mdiff - master diff:
+# mdiff - master diff:
+# Format: mdiff path1 path2
+#
 # compare a master file to an actual output file
 # return 0 if files match and returns non-zero if files do not match.
 # The master file is composed of standard text lines and lines with 
@@ -32,8 +34,45 @@
 #This has a date stamp: Wednesday, January 3rd, 2018 15:23
 #
 # in Example.actual
-
 #set -x
+export ME=$0
+function syntax {
+  echo "${ME} Version 1.0.1"
+  echo "${ME} [<options>] <master file> <actual file>"
+  echo " where <options> can be one or more of:"
+  echo " -v [version information]"
+  echo " -Z [ignore trailing whitespace in comparison]"
+}
+
+version=0
+trimtrailing=0
+
+while getopts ":vZ" opt; do
+  case ${opt} in
+    v ) 
+      version=1
+      ;;
+    Z ) 
+      trimtrailing=1
+      ;;
+    \?) 
+      echo "Invalid option: -$OPTARG" >&2
+      syntax
+      exit 4
+      ;;
+  esac
+done
+shift $(expr $OPTIND - 1 )
+
+if test $# -ne 2; then
+  syntax
+  exit 16
+fi
+if [ ${version} -ne 0 ]; then
+  syntax
+  exit 4
+fi
+
 nl1=`wc -l <$1`
 nl2=`wc -l <$2`
 if [[ $nl1 -ne $nl2 ]]; then 
@@ -45,10 +84,8 @@ rc=$?
 if [ $rc -eq 0 ]; then 
   exit $rc
 fi
-awk -vactual=$2 '
-        function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s }
-        function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s }
-   	function trim(s)  { return rtrim(ltrim(s)); }
+awk -vactual=$2 -vtrimtrailing=${trimtrailing} '
+	function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s }
 	function printdiff(expected,actual) {
 		print NR"c"NR
 		print "< " expected
@@ -63,9 +100,15 @@ awk -vactual=$2 '
 			i=i+1
 		}
 	}
-	/\^.*\$/ { 
-		expected=trim($0); 
-		actual=trim(fact[NR]); 
+	{
+		expected=$0;
+		actual=fact[NR];
+		if (trimtrailing) {
+			expected=rtrim(expected); 
+			actual=rtrim(actual); 
+		}
+	}
+	/\^.*\$.*/ { 
 		if (actual ~ expected) { 
 			; 
 		} else { 
@@ -75,8 +118,6 @@ awk -vactual=$2 '
 		next
 	}
 	// {           
-		expected=trim($0); 
-		actual=trim(fact[NR]); 
 		if (actual != expected) {
 			printdiff(expected,actual)
 			rc=1
