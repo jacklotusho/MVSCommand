@@ -10,6 +10,6 @@
  The input file attributes are: DSORG=PARTITIONED, RECFM=U, BLKSIZE=32760, LRECL=0, File size=203K bytes +               
  You may enter DSNAME, SPACE, UNIT, VOL, OLD/NEW, or RESTORE/COPY/DELETE/END                                             
  Restore successful to dataset '@@HLQ@@.MVSCMD.TSO.LOAD'
- END
  READY
+ END
 PROGA->1,PROGB->2
