@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run superce on newfile and oldfile and write the results to the console, suppressing messages with time stamps
 #

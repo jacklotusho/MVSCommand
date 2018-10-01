@@ -3,12 +3,13 @@
  READY
  END
 1READY
-  RECEIVE   INDDNAME(TSODAR)
- INMR901I Dataset @@HLQ@@.MVSCMD.TSO.LOAD from @@HLQ@@ on S0W1
- INMR154I The incoming data set is a 'PROGRAM LIBRARY'.
- INMR906A Enter restore parameters or 'DELETE' or 'END' +
- INMR909A You may enter DSNAME, SPACE, UNIT, VOL, OLD/NEW, or RESTORE/COPY/DELETE/END
- INMR001I Restore successful to dataset '@@HLQ@@.MVSCMD.TSO.LOAD'
+  RECEIVE NODISPLAY NONAMES   INDDNAME(TSODAR)                                                                           
+ Dataset @@HLQ@@.MVSCMD.TSO.LOAD from TSTRADM on S0W1                                                                    
+ The incoming data set is a 'PROGRAM LIBRARY'.                                                                           
+ Enter restore parameters or 'DELETE' or 'END' +                                                                         
+ The input file attributes are: DSORG=PARTITIONED, RECFM=U, BLKSIZE=32760, LRECL=0, File size=203K bytes +               
+ You may enter DSNAME, SPACE, UNIT, VOL, OLD/NEW, or RESTORE/COPY/DELETE/END                                             
+ Restore successful to dataset '@@HLQ@@.MVSCMD.TSO.LOAD'
  READY
  END
 PROGA->1,PROGB->2

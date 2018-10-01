@@ -1,4 +1,4 @@
-#
+#!/bin/sh
 # Run ADRDSU to take a set of datasets and write them to an archive.
 # Run ADRDSU again, but getting input from stdin instead of a dataset
 # Pros of ADRDSU over IKJEFT01 and IEBCOPY: easy to take a very large number of datasets and archive them

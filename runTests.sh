@@ -1,3 +1,4 @@
+#!/bin/sh
 . ./setenv.sh 
 cd tests
 rm -f *.actual
@@ -18,5 +19,5 @@ for test in ${tests}; do
 	echo ${test}
 	name="${test%.*}"
 	${test} >${name}.actual 2>&1
-	diff -w ${name}.actual ${name}.expected
+	mdiff -Z ${name}.expected ${name}.actual
 done

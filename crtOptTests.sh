@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # This will create the test datasets and copy contents in from testsrc
 # used by runTests.sh

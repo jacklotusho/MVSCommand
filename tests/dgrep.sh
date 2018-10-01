@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # simple program that searches all the PDS members for a string, e.g. dgrep IEFPROC sys1.proclib
 #

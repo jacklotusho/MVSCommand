@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run IEBCOPY twice. First, to copy 2 of 3 PDSE members to a target dataset (copysome). 
 # Second, to copy all PDSE members to a target dataset (copyall).

@@ -1,4 +1,4 @@
-Program: <CCNDRVR> Arguments: </CXX>
+Program: <CCNDRVR> Arguments: </CXX FLAG(E)>
 DDNames:
   SYSPRINT=*
   SYSIN=@@HLQ@@.MVSCMD.C(MAIN)

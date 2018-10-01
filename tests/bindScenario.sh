@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Program does a simple bind of an object file, using HEWL.
 # Various timestamps are suppressed using awk !/.../

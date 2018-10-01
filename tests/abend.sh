@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run tests that abend and verify that we can get information about the abend from mvscmd
 #

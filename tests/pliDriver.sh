@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run the PL/I compiler against a simple PL/I program, writing compiler output to the console (suppressing messages with timestamps)
 #

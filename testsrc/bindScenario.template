@@ -23,7 +23,7 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
 1                         *** M O D U L E  M A P ***                                                                     
                                                                                                                          
  ---------------                                                                                                         
- CLASS  B_TEXT            LENGTH =      9FA  ATTRIBUTES = CAT,   LOAD, RMODE=ANY                                         
+ CLASS  B_TEXT            LENGTH =      9AA  ATTRIBUTES = CAT,   LOAD, RMODE=ANY                                         
                           OFFSET =        0 IN SEGMENT 001     ALIGN = DBLWORD                                           
  ---------------                                                                                                         
                                                                                                                          
@@ -34,36 +34,34 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
                                                                                                                          
                 80  EDCINPL         *  CSECT        24  SYSLIB    01  EDCINPL                                            
                                                                                                                          
-                A8  CBCSG003        *  CSECT        50  SYSLIB    03  EDC400BA                                           
+                A8  CEESG003        *  CSECT       12B  SYSLIB    01  CEESG003                                           
                                                                                                                          
-                F8  CEESG003        *  CSECT       12B  SYSLIB    01  CEESG003                                           
+               1D8  CEEROOTA        *  CSECT       1F0  SYSLIB    01  CEEROOTA                                           
+        0      1D8     CEEROOTD           LABEL                                                                          
                                                                                                                          
-               228  CEEROOTA        *  CSECT       1F0  SYSLIB    01  CEEROOTA                                           
-        0      228     CEEROOTD           LABEL                                                                          
+               3C8  CEEBETBL        *  CSECT        28  SYSLIB    01  CEEBETBL                                           
                                                                                                                          
-               418  CEEBETBL        *  CSECT        28  SYSLIB    01  CEEBETBL                                           
+               3F0  CEEBPUBT        *  CSECT        70  SYSLIB    01  CEEBPUBT                                           
                                                                                                                          
-               440  CEEBPUBT        *  CSECT        70  SYSLIB    01  CEEBPUBT                                           
+               460  CEEBTRM         *  CSECT        A4  SYSLIB    01  CEEBTRM                                            
                                                                                                                          
-               4B0  CEEBTRM         *  CSECT        A4  SYSLIB    01  CEEBTRM                                            
+               508  CEEBLLST        *  CSECT        5C  SYSLIB    01  CEEBLLST                                           
+       10      518     CEELLIST           LABEL                                                                          
                                                                                                                          
-               558  CEEBLLST        *  CSECT        5C  SYSLIB    01  CEEBLLST                                           
-       10      568     CEELLIST           LABEL                                                                          
+               568  CEEBINT         *  CSECT         8  SYSLIB    01  CEEBINT                                            
                                                                                                                          
-               5B8  CEEBINT         *  CSECT         8  SYSLIB    01  CEEBINT                                            
+               570  CEEARLU         *  CSECT        B8  SYSLIB    01  CEEARLU                                            
                                                                                                                          
-               5C0  CEEARLU         *  CSECT        B8  SYSLIB    01  CEEARLU                                            
+               628  CEEBPIRA        *  CSECT       2A0  SYSLIB    01  CEEINT                                             
+        0      628     CEEINT             LABEL                                                                          
+        0      628     CEEBPIRB           LABEL                                                                          
+        0      628     CEEBPIRC           LABEL                                                                          
                                                                                                                          
-               678  CEEBPIRA        *  CSECT       2A0  SYSLIB    01  CEEINT                                             
-        0      678     CEEINT             LABEL                                                                          
-        0      678     CEEBPIRB           LABEL                                                                          
-        0      678     CEEBPIRC           LABEL                                                                          
-                                                                                                                         
-               918  CEECPYRT        *  CSECT        E2  SYSLIB    01  CEEINT                                             
+               8C8  CEECPYRT        *  CSECT        E2  SYSLIB    01  CEEINT                                             
                                                                                                                          
  ---------------                                                                                                         
  CLASS  C_CODE            LENGTH =      14C  ATTRIBUTES = CAT,   LOAD, RMODE=ANY                                         
-                          OFFSET =      A00 IN SEGMENT 001     ALIGN = DBLWORD                                           
+                          OFFSET =      9B0 IN SEGMENT 001     ALIGN = DBLWORD                                           
  ---------------                                                                                                         
                                                                                                                          
   SECTION    CLASS                                      ------- SOURCE --------                                          
@@ -77,8 +75,17 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
 1                         *** M O D U L E  M A P ***                                                                     
                                                                                                                          
  ---------------                                                                                                         
+ CLASS  C_@@PPA2          LENGTH =        8  ATTRIBUTES = MRG,   LOAD, RMODE=ANY                                         
+                          OFFSET =      B00 IN SEGMENT 001     ALIGN = DBLWORD                                           
+ ---------------                                                                                                         
+                                                                                                                         
+             CLASS                                                                                                       
+            OFFSET  NAME                TYPE    LENGTH   SECTION                                                         
+                 0  $PRIV000011      PART             8  $PRIV000010                                                     
+                                                                                                                         
+ ---------------                                                                                                         
  CLASS  B_LIT             LENGTH =       C0  ATTRIBUTES = CAT,   LOAD, RMODE=ANY                                         
-                          OFFSET =      B50 IN SEGMENT 001     ALIGN = DBLWORD                                           
+                          OFFSET =      B08 IN SEGMENT 001     ALIGN = DBLWORD                                           
  ---------------                                                                                                         
                                                                                                                          
   SECTION    CLASS                                      ------- SOURCE --------                                          
@@ -86,22 +93,12 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
                                                                                                                          
                  0  IEWBLIT            CSECT        C0                **NULL**                                           
         0        0     IEWBLIT            LABEL                                                                          
-                                                                                                                         
- ---------------                                                                                                         
- CLASS  C_@@PPA2          LENGTH =        8  ATTRIBUTES = MRG,   LOAD, RMODE=ANY                                         
-                          OFFSET =      C10 IN SEGMENT 001     ALIGN = DBLWORD                                           
- ---------------                                                                                                         
-                                                                                                                         
-             CLASS                                                                                                       
-            OFFSET  NAME                TYPE    LENGTH   SECTION                                                         
-                 0  $PRIV000011      PART             8  $PRIV000010                                                     
 1          ***  DATA SET SUMMARY  ***                                                                                    
                                                                                                                          
  DDNAME    CONCAT   FILE IDENTIFICATION                                                                                  
                                                                                                                          
  SYSLIB      01     CEE.SCEELKED                                                                                         
- SYSLIB      03     CEE.SCEECPP                                                                                          
- SYSLIN      01     @@HLQ@@.MVSCMD.BIND.OBJ                                                                                     
+ SYSLIN      01     @@HLQ@@.MVSCMD.BIND.OBJ                                                                              
                                                                                                                          
            *** E N D  O F  M O D U L E  M A P ***                                                                        
                                                                                                                          
@@ -140,6 +137,7 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
     RES                 NO                                                                                               
     REUSABILITY         UNSPECIFIED                                                                                      
     RMODE               UNSPECIFIED                                                                                      
+    RMODEX              NO                                                                                               
     SIGN                NO                                                                                               
     STORENX             NOREPLACE                                                                                        
     STRIPCL             NO                                                                                               
@@ -160,10 +158,10 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
 1SAVE OPERATION SUMMARY:                                                                                                 
                                                                                                                          
     MEMBER NAME         BIND                                                                                             
-    LOAD LIBRARY        @@HLQ@@.MVSCMD.BIND.LOAD                               
+    LOAD LIBRARY        @@HLQ@@.MVSCMD.BIND.LOAD                                                                         
     PROGRAM TYPE        PROGRAM OBJECT(FORMAT 3)                                                                         
-    VOLUME SERIAL       ******                                                                                           
-    DISPOSITION         ADDED NEW                                                                                         
+ VOLUME SERIAL ******                                                                                           
+    DISPOSITION         ADDED NEW                                                                                        
                                                                                                                          
                                                                                                                          
 1SAVE MODULE ATTRIBUTES:                                                                                                 
@@ -191,7 +189,7 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
     SYM GENERATED       NO                                                                                               
     TEST                NO                                                                                               
     XPLINK              NO                                                                                               
-    MODULE SIZE (HEX)   00000C18                                                                                         
+    MODULE SIZE (HEX)   00000BC8                                                                                         
     DASD SIZE (HEX)     00007000                                                                                         
                                                                                                                          
                                                                                                                          
@@ -206,6 +204,7 @@ PDS Member free succeeded for SYSLIN=@@HLQ@@.MVSCMD.BIND.OBJ(BIND)
                                                                                                                          
                                                                                                                          
                                                                                                                          
+1z/OS V2 R3 BINDER     17:31:07 WEDNESDAY SEPTEMBER 19, 2018                                                             
  IEW2008I 0F03 PROCESSING COMPLETED.  RETURN CODE =  0.                                                                  
                                                                                                                          
                                                                                                                          

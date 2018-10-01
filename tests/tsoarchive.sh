@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run batch TSO (IKJEFT01) to archive a PDSE of 2 programs, then delete the PDSE, then restore it, then run the programs to ensure the restore worked.
 # Pros of IKJEFT01 over ADRDSU and IEBCOPY: It is the most common way to archive/restore a dataset on z/OS
@@ -26,7 +27,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.TSO.LOAD'"\) recfm\(u\) lrecl\(0\) blksize\
 
 # Restore PDSE from dataset archive file
 . setcc xmitRestore
-mvscmdauth --pgm=ikjeft01 --tsodar=${TESTHLQ}.MVSCMD.TSO.DAR --systsin=${TESTHLQ}.MVSCMD.TSO.CMD\(RCV\) --sysprint=* --systsprt=* | awk '!/INMR908A/' # RECEIVE 'receives' archive to PDSE
+mvscmdauth --pgm=ikjeft01 --tsodar=${TESTHLQ}.MVSCMD.TSO.DAR --systsin=${TESTHLQ}.MVSCMD.TSO.CMD\(RCV\) --sysprint=* --systsprt=* | awk '!/INMR908A/' | awk '!/Transmission occurred on/' # RECEIVE 'receives' archive to PDSE
 . unsetcc
 
 # Run the programs (which return 1 and 2 respectively) to ensure they work

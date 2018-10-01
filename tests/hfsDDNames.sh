@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Run the C compiler to test that HFS DD names work properly
 # Then run DFSORT to test that output DD names properly have the 'WRONLY' set
@@ -6,7 +7,11 @@
 (
  export STEPLIB=${CHLQ}.SCCNCMP;
  . setcc cHFSCompilation;
- cp ${MVSCOMMAND_ROOT}/testsrc/main.c /tmp/mvscmd_chfs_main.c;
+ #
+ # msf - work around bug where C/C++ compiler does not 'see' code page of HFS file through DDname
+ # 
+ iconv -f ISO8859-1 -t IBM-1047 <${MVSCOMMAND_ROOT}/testsrc/main.c >/tmp/mvscmd_chfs_main.c
+ chtag -c IBM-1047 /tmp/mvscmd_chfs_main.c
  chmod u-w /tmp/mvscmd_chfs_main.c;
  touch /tmp/mvscmd_chfs_main.o;
  mvscmd -v --pgm="CCNDRVR" --args="/CXX" --syslin=/tmp/mvscmd_chfs_main.o --sysin=/tmp/mvscmd_chfs_main.c --sysprint=*

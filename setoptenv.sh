@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # To be called from createTests and runTests to set up the environment for optional tests
 # Modify this file to match your z/OS system

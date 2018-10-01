@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # ensure that configuration is all working correctly
 #

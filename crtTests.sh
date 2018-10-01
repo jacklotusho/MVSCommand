@@ -1,7 +1,8 @@
+#!/bin/sh
 copyToDataset() {
 	src=$1
         dst=$2
-	iconv -fISO8859-1 -tIBM-1047 <$1 | sed 's/[ ]*$//' >/tmp/mvscmd.$1; cp -T /tmp/mvscmd.$1 "//'${2}'"
+	sed 's/[ ]*$//' <$1 >/tmp/mvscmd.ebcdic.$1; chtag -t -cIBM-1047 /tmp/mvscmd.ebcdic.$1; cp /tmp/mvscmd.ebcdic.$1 "//'${2}'"
         return $?
 }
 
@@ -36,7 +37,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.SUPERCE.CMD'"\) recfm\(f,b\) lrecl\(80\) ds
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.IDCAMS.IN'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.IEBCOPY.IN'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.SUPERCE.IN'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.C'"\) recfm\(v,b\) lrecl\(255\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.C'"\) recfm\(f,b\) lrecl\(255\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.PLI'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 
@@ -59,11 +60,11 @@ done
 extension="cmd"
 tgtdir="./"
 for f in *.cmdtemplate; do
-  xx=$(basename ${f}  .cmdtemplate); sed -e "s/@@HLQ@@/${TESTHLQ}/g" ${f} >${tgtdir}/${xx}.${extension}
+  xx=$(basename ${f}  .cmdtemplate); sed -e "s/@@HLQ@@/${TESTHLQ}/g" ${f} | sed "s/@@TMPVOL@@/${TMPVOL}/g" >${tgtdir}/${xx}.${extension}
 done
 
 # Copy the files from zFS into their respective datasets
-
+(export STEPLIB=${CHLQ}.SCCNCMP; c89 -c bind.c )
 cp bind.o "//'"${TESTHLQ}".MVSCMD.BIND.OBJ(BIND)'"
 copyToDataset main.pli "${TESTHLQ}.MVSCMD.PLI(MAIN)"
 copyToDataset main.cobol "${TESTHLQ}.MVSCMD.COBOL(MAIN)"
