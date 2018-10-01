@@ -12,6 +12,10 @@ copyToDataset() {
 #
 . ./setenv.sh
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.BIND.OBJ'") >/dev/null 2>&1
+(tsocmd delete "'"${TESTHLQ}".MVSCMD.DLS.FILEA'") >/dev/null 2>&1
+(tsocmd delete "'"${TESTHLQ}".MVSCMD.DLS.FILEB'") >/dev/null 2>&1
+(tsocmd delete "'"${TESTHLQ}".MVSCMD.DGREP.FILEA'") >/dev/null 2>&1
+(tsocmd delete "'"${TESTHLQ}".MVSCMD.DGREP.FILEB'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.IDCAMS.CMD'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.IEBCOPY.CMD'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.SUPERCE.CMD'") >/dev/null 2>&1
@@ -31,6 +35,8 @@ copyToDataset() {
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.BIND.OBJ'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DLS.FILEA'"\) recfm\(v,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DLS.FILEB'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DGREP.FILEA'"\) recfm\(v,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DGREP.FILEB'"\) recfm\(f,b\) lrecl\(255\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.IDCAMS.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.IEBCOPY.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.SUPERCE.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
@@ -62,6 +68,11 @@ tgtdir="./"
 for f in *.cmdtemplate; do
   xx=$(basename ${f}  .cmdtemplate); sed -e "s/@@HLQ@@/${TESTHLQ}/g" ${f} | sed "s/@@TMPVOL@@/${TMPVOL}/g" >${tgtdir}/${xx}.${extension}
 done
+extension="parm"
+tgtdir="../tests"
+for f in *.parmtemplate; do
+  xx=$(basename ${f}  .parmtemplate); sed -e "s/@@HLQ@@/${TESTHLQ}/g" ${f} >${tgtdir}/${xx}.${extension}
+done
 
 # Copy the files from zFS into their respective datasets
 (export STEPLIB=${CHLQ}.SCCNCMP; c89 -c bind.c )
@@ -86,6 +97,9 @@ copyToDataset copysome.cmd  "${TESTHLQ}.MVSCMD.IEBCOPY.CMD(COPYSOME)"
 copyToDataset dfsort.cmd     "${TESTHLQ}.MVSCMD.DFSORT.CMD"
 copyToDataset dfsort.master  "${TESTHLQ}.MVSCMD.DFSORT.MASTER"
 copyToDataset dfsort.new     "${TESTHLQ}.MVSCMD.DFSORT.NEW"
+
+copyToDataset dgrep.filea    "${TESTHLQ}.MVSCMD.DGREP.FILEA"
+copyToDataset dgrep.fileb    "${TESTHLQ}.MVSCMD.DGREP.FILEB"
 
 copyToDataset adrdsu.cmd     "${TESTHLQ}.MVSCMD.ADRDSU.CMD"
 copyToDataset tsoxmit.cmd    "${TESTHLQ}.MVSCMD.TSO.CMD(XMIT)"

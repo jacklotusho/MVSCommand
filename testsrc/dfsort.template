@@ -1,1 +1,1 @@
- 1           MERGE FORMAT=CH,FIELDS=(1,9,A) 
+1           MERGE FORMAT=CH,FIELDS=(1,9,A) 
