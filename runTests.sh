@@ -2,6 +2,7 @@
 . ./setenv.sh 
 cd tests
 rm -f *.actual
+#set -x
 
 if [ -z $1 ] ; then
 	testEnv.sh >testEnv.actual 2>&1
@@ -18,6 +19,11 @@ fi
 for test in ${tests}; do
 	echo ${test}
 	name="${test%.*}"
-	${test} >${name}.actual 2>&1
+	if [ -e ${name}.parm ]; then
+		parms=`cat ${name}.parm`
+	else
+		parms=''
+	fi
+	${test} ${parms} >${name}.actual 2>&1
 	mdiff -Z ${name}.expected ${name}.actual
 done

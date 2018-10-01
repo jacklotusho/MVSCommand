@@ -2,13 +2,13 @@
 #
 # simple program that searches all the PDS members for a string, e.g. dgrep IEFPROC sys1.proclib
 #
-if [ -z "$1" ]; then
-	str="//SYSIN";
-	datasetpattern=${TESTHLQ}.MVSCMD.*
-else
-	str=$1;
-	datasetpattern=$2;
+if [ "$#" -ne 2 ]; then
+	echo "Syntax: dgrep <string> <datasetpattern>"
+	exit 16
 fi
+str=$1;
+datasetpattern=$2;
+
 datasets=`echo " LISTCAT -\n ENTRIES("${datasetpattern}")\n" | mvscmdauth --pgm=idcams --sysprint=* --sysin=stdin | awk '/0NONVSAM/ { print $3 }' `
 for dataset in ${datasets}; do
 	testid=`echo ${dataset} | tr '.' '_'`
