@@ -1,6 +1,3 @@
- LINE-#  SOURCE SECTION                    SRCH DSN: @@HLQ@@.MVSCMD.JCL
- 
- 
- SORT                        --------- STRING(S) FOUND -------------------
- 
-      6  //SYSIN    DD DSN=@@HLQ@@.MVSCMD.DFSORT.CMD,DISP=SHR
+ LINE-#  SOURCE SECTION                    SRCH DSN: @@HLQ@@.MVSCMD.DGREP.FILEB                                                          
+                                                                                                                                         
+      1  This file has one match 
