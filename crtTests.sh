@@ -28,7 +28,7 @@ copyToDataset() {
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.DFSORT.MASTER'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.DFSORT.NEW'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.DFSORT.CMD'") >/dev/null 2>&1
-(tsocmd delete "'"${TESTHLQ}".MVSCMD.ADRDSU.CMD'") >/dev/null 2>&1
+(tsocmd delete "'"${TESTHLQ}".MVSCMD.ADRDSSU.CMD'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.TSO.CMD'") >/dev/null 2>&1
 (tsocmd delete "'"${TESTHLQ}".MVSCMD.TSO.REXX'") >/dev/null 2>&1
 
@@ -50,7 +50,7 @@ tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL'"\) recfm\(f,b\) lrecl\(80\) dsorg\(p
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DFSORT.MASTER'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DFSORT.NEW'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.DFSORT.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.ADRDSU.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.ADRDSSU.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.TSO.CMD'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.TSO.REXX'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 
@@ -101,6 +101,6 @@ copyToDataset dfsort.new     "${TESTHLQ}.MVSCMD.DFSORT.NEW"
 copyToDataset dgrep.filea    "${TESTHLQ}.MVSCMD.DGREP.FILEA"
 copyToDataset dgrep.fileb    "${TESTHLQ}.MVSCMD.DGREP.FILEB"
 
-copyToDataset adrdsu.cmd     "${TESTHLQ}.MVSCMD.ADRDSU.CMD"
+copyToDataset adrdssu.cmd    "${TESTHLQ}.MVSCMD.ADRDSSU.CMD"
 copyToDataset tsoxmit.cmd    "${TESTHLQ}.MVSCMD.TSO.CMD(XMIT)"
 copyToDataset tsorcv.cmd     "${TESTHLQ}.MVSCMD.TSO.CMD(RCV)"

@@ -765,33 +765,42 @@ static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, 
 }
 
 static int allocHFS(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
+/* FILEDATA=TEXT|BINARY|RECORD https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.ieaa800/file.htm */
 	__dyn_t ip;
 	int rc;
 	char* ddName = ddNameList->ddName;
 	FileNode_T* fileNode = ddNameList->fileNodeList.head;
 	int isHFSRWFile = ddNameList->isHFSRWFile;
+#if __64BIT__
+  #error This routine currently requires 31-bit addressing. Recode for 64-bit
+#else
+     	char* dalfdat = "\x80\x1d\x00\x01\x00\x01\x40"; /* mark the HFS file as FILEDATA=TEXT */
+	unsigned int miscitem[1] = { (unsigned int) ((void*) (dalfdat)) };
+	miscitem[0] |= 0x80000000;
+#endif
 
-	dyninit(&ip);
+      	dyninit(&ip);
 
-	ip.__ddname = ddName; 
-	ip.__pathname = getHFSName(fileNode); 
+	ip.__ddname = ddName;
+	ip.__pathname = getHFSName(fileNode);
 	if (isHFSRWFile) {
-		ip.__pathopts = __PATH_ORDWR;
+		ip.__pathopts = __PATH_ORDWR | __PATH_OAPPEND;
 	} else {
-		ip.__pathopts = __PATH_ORDONLY;		
+                ip.__pathopts = __PATH_ORDONLY;
 	}
+        ip.__miscitems = (void*) miscitem;
 
 	errno = 0;
-	rc = dynalloc(&ip); 
+	rc = dynalloc(&ip);
 	if (rc || FORCE(FAIL_HFSAllocation)) {
 		rc = (rc == 0) ? FORCED_ALLOCATION_RC : rc;
 		HFSAllocationError(optInfo, &ip);
 	} else {
-   		if (optInfo->verbose) {
-   			printInfo(InfoHFSAllocationSucceeded, ddName, getHFSName(fileNode), isHFSRWFile ? "rw" : "r");
-   		}
-   	}
-	return rc;
+                if (optInfo->verbose) {
+                        printInfo(InfoHFSAllocationSucceeded, ddName, getHFSName(fileNode), isHFSRWFile ? "rw" : "r");
+		}
+	}
+        return rc;
 }
 	
 static int allocConsole(OptInfo_T* optInfo, DDNameList_T* ddNameList) {

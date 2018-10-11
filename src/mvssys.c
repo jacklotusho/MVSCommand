@@ -95,20 +95,27 @@ static int call24BitOr31BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) 
 		if (optInfo->debug) {
 			printInfo(InfoWaitingOnPID, pid);
 		}
-		if ((pid = waitpid(pid, &status, 0)) == -1) {
-			perror("");
-			printError(ErrorWaitingForPID, retVal);
-		} else {
-			if (WIFEXITED(status)) {
-				if (optInfo->verbose) {
-					printInfo(InfoAttachExitCode, WEXITSTATUS(status), pgmName);
-				}
-				progInfo->rc = WEXITSTATUS(status);
+		do {
+			if ((pid = waitpid(pid, &status, 0)) == -1) {
+				perror("");
+				printError(ErrorWaitingForPID, retVal);
+			} else if (pid == 0) {
+				sleep(1);
 			} else {
-				printError(ErrorChildCompletion, pgmName);
-				progInfo->rc = -1;
-		    }	
-		}
+				if (WIFEXITED(status)) {
+					if (optInfo->verbose) {
+						printInfo(InfoAttachExitCode, WEXITSTATUS(status), pgmName);
+					}
+					progInfo->rc = WEXITSTATUS(status);
+				} else {
+					if (WIFSIGNALED(status)) {
+						printf("signal %d issued for child process %s\n", WTERMSIG(status), pgmName);
+					}
+					printError(ErrorChildCompletion, pgmName);
+					progInfo->rc = -1;
+		  	  }	
+			}
+		} while (pid == 0); 
 	}
 	return progInfo->rc;
 }
