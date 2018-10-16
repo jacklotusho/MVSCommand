@@ -555,6 +555,8 @@ ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo) {
 
 		if (!strnocasecmp(subOpt, DISP_OLD) || !strnocasecmp(subOpt, DISP_EXCL)) {
 			entry->isExclusive = 1;
+		} else if (!strnocasecmp(subOpt, DISP_MOD) || !strnocasecmp(subOpt, DISP_MODIFY)) {
+			entry->isAppend = 1;
 		} else if (!strnocasecmp(subOpt, DD_VOL) || !strnocasecmp(subOpt, DD_VOLUME)) {
 			entry->isVolume = 1;
 		} else {
@@ -566,7 +568,7 @@ ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo) {
 	return rc;
 }
 
-static int freePDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
+static int freePDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive, int isModify) {
 	__dyn_t ip;
 	int rc;
 
@@ -578,6 +580,8 @@ static int freePDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode,
 	ip.__dsorg  = __DSORG_PS;
 	if (isExclusive) {
 		ip.__status = __DISP_OLD;
+	} else if (isModify) {
+		ip.__status = __DISP_MOD;
 	} else {
 		ip.__status = __DISP_SHR; 
 	}   
@@ -617,7 +621,7 @@ static int freeVolume(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
    	return rc;
 }
 
-static int freeDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
+static int freeDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive, int isModify) {
 	__dyn_t ip;
 	int rc;
 
@@ -628,6 +632,8 @@ static int freeDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, i
 	
 	if (isExclusive) {
 		ip.__status = __DISP_OLD;
+	} else if (isModify) {
+		ip.__status = __DISP_MOD;
 	} else {
 		ip.__status = __DISP_SHR; 
 	}
@@ -687,7 +693,7 @@ static int freeSteplib(OptInfo_T* optInfo, FileNodeList_T* fileNodeList) {
 	return rc;
 }
 
-static int allocPDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
+static int allocPDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive, int isModify) {
 	__dyn_t ip;
 	int rc;
 
@@ -699,6 +705,8 @@ static int allocPDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode
 	ip.__dsorg  = __DSORG_PS;
 	if (isExclusive) {
 		ip.__status = __DISP_OLD;
+	} else if (isModify) {
+		ip.__status = __DISP_MOD;
 	} else {
 		ip.__status = __DISP_SHR; 
 	}   
@@ -737,7 +745,7 @@ static int allocVolume(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
 	return rc;	
 }
 
-static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive) {
+static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, int isExclusive, int isModify) {
 	__dyn_t ip;
 	int rc;
 
@@ -748,6 +756,8 @@ static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, 
 	
 	if (isExclusive) {
 		ip.__status = __DISP_OLD;
+	} else if (isModify) {
+		ip.__status = __DISP_MOD;
 	} else {
 		ip.__status = __DISP_SHR; 
 	}
@@ -764,8 +774,8 @@ static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, 
 	return rc;
 }
 
-static int allocHFS(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
-/* FILEDATA=TEXT|BINARY|RECORD https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.ieaa800/file.htm */
+static int allocHFS(OptInfo_T* optInfo, DDNameList_T* ddNameList, int isAppend) {
+	/* FILEDATA=TEXT|BINARY|RECORD https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.ieaa800/file.htm */
 	__dyn_t ip;
 	int rc;
 	char* ddName = ddNameList->ddName;
@@ -784,7 +794,11 @@ static int allocHFS(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
 	ip.__ddname = ddName;
 	ip.__pathname = getHFSName(fileNode);
 	if (isHFSRWFile) {
-		ip.__pathopts = __PATH_ORDWR | __PATH_OAPPEND;
+		if (isAppend) {
+			ip.__pathopts = __PATH_ORDWR | __PATH_OAPPEND;
+		} else {
+			ip.__pathopts = __PATH_ORDWR;
+		} 
 	} else {
                 ip.__pathopts = __PATH_ORDONLY;
 	}
@@ -986,9 +1000,9 @@ static int allocConcatenationReadOnly(OptInfo_T* optInfo, DDNameList_T* ddNameLi
 			strcpy(cur->node.dsc.tempDDName, "????????"); 
 		}
 		if (hasMemberName(cur)) {
-			rc = allocPDSMember(optInfo, cur->node.dsc.tempDDName, cur, ddNameList->isExclusive);
+			rc = allocPDSMember(optInfo, cur->node.dsc.tempDDName, cur, ddNameList->isExclusive, ddNameList->isAppend);
 		} else {
-			rc = allocDataset(optInfo, cur->node.dsc.tempDDName, cur, ddNameList->isExclusive);
+			rc = allocDataset(optInfo, cur->node.dsc.tempDDName, cur, ddNameList->isExclusive, ddNameList->isAppend);
 		}
 		if (optInfo->verbose) {
 			printInfo(InfoConcatenatedDatasetAllocationSucceeded, cur->node.dsc.tempDDName, cur->node.ds.dsName, numDatasets);
@@ -1152,6 +1166,9 @@ static void printDDNames(DDNameList_T* ddNameList) {
 				if (ddNameList->isExclusive) {
 					printInfo(InfoExclusive);
 				}
+				if (ddNameList->isAppend) {
+					printInfo(InfoAppend);
+				}
 				if (ddNameList->isVolume) {
 					printInfo(InfoVolume);
 				}
@@ -1191,17 +1208,17 @@ ProgramFailureMsg_T establishDDNames(OptInfo_T* optInfo) {
 		} else if (!strcmp(ddNameList->ddName, STEPLIB_DDNAME)) {
 			rc = allocSteplib(optInfo, &ddNameList->fileNodeList);
 		} else if (ddNameList->isHFS) {
-			rc = allocHFS(optInfo, ddNameList);
+			rc = allocHFS(optInfo, ddNameList, ddNameList->isAppend);
 		} else if (ddNameList->isConcatenation) {
 			rc = allocConcatenationReadOnly(optInfo, ddNameList);
 		} else {
 			if (hasMemberName(ddNameList->fileNodeList.head)) {
-				rc = allocPDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+				rc = allocPDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive, ddNameList->isAppend);
 			} else {
 				if (ddNameList->isVolume) {
 					rc = allocVolume(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
 				} else {
-					rc = allocDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+					rc = allocDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive, ddNameList->isAppend);
 				}
 			}	
 		}
@@ -1239,12 +1256,12 @@ ProgramFailureMsg_T freeDDNames(OptInfo_T* optInfo) {
 			rc = freeConcatenationReadOnly(optInfo, ddNameList);
 		} else {
 			if (hasMemberName(ddNameList->fileNodeList.head)) {
-				rc = freePDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+				rc = freePDSMember(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive, ddNameList->isAppend);
 			} else {
 				if (ddNameList->isVolume) {
 					rc = freeVolume(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
 				} else {
-					rc = freeDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive);
+					rc = freeDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive, ddNameList->isAppend);
 				}
 			}	
 		}
