@@ -111,7 +111,7 @@ static const char* ProgramInfoMessage[] = {
 	" --args=<program-arguments> | -a=<program-arguments> (arguments to pass to the program, e.g. -a='MARGINS(1,72)'. Default is ''\n",
 	" --verbose | -v (verbose messages). Default is off\n",
 	" --debug | -d (even more verbose messages). Default is off.\n",
-	" --<ddname>=<value>[,excl|,old|,vol|,volume] (specify a dataset, concatenated dataset, PDS member, console, volume or dummy for the given ddname).\n",
+	" --<ddname>=<value>[,excl|,old|mod|vol|,volume] (specify a dataset, concatenated dataset, PDS member, HFS file, console, volume or dummy for the given ddname).\n",
 	"  Dataset example: --sysin=IBMUSER.TEST.OBJ: allocate the DDName SYSIN to the dataset IBMUSER.TEST.OBJ\n",
 	"  Concatenated dataset example: --syslib=CEE.SCEELKED:CEE.SCEELKEX: allocate the ddname SYSLIB to the dataset concatenation CEE.SCEELKED:CEE.SCEELKEX\n",
 	"  Console example: --sysprint=*: allocate the DDName SYSPRINT to stdout (which can then be piped to other processes).\n",
@@ -119,6 +119,8 @@ static const char* ProgramInfoMessage[] = {
 	"  stdin example: --sysin=stdin: allocate the DDName SYSIN to an FB 80 temporary sequential dataset that has stdin written to it (stdin can be piped in from other processes).\n",	
 	"  Dummy Dataset example: --sysin=dummy: allocate the DDName SYSIN to DUMMY\n",
 	"  Dataset allocated as 'exclusive' (i.e. DISP=OLD) example: --archive=IBMUSER.MVSCMD.DAR,EXCL\n",
+	"  Dataset allocated as 'mod' (i.e. DISP=MOD) example: --archive=IBMUSER.MVSCMD.DAR,MOD\n",
+	"  HFS file allocated as 'mod' (i.e. DISP=MOD or 'append') example: --archive=/tmp/mylog,mod\n",
 	"  Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)\n",	
 	" Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive\n",
 	" Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout\n",
@@ -133,6 +135,8 @@ static const char* ProgramInfoMessage[] = {
 	"PDS Member free succeeded for %s=%s(%s)\n",
 	"Dataset free succeeded for %s=%s\n",	
 	",volume",	
+	",mod",
+	"signal %d issued for child process %s\n",
 };
 
 

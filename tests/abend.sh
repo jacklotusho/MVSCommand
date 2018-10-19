@@ -16,8 +16,8 @@ rm operexcp.o
 (
  export STEPLIB=${TESTHLQ}.MVSCMD.ABEND.LOAD:$STEPLIB; 
 . setcc ForceAbend
- mvscmd --pgm=PROTEXCP 2>/dev/null; protRC=$?; 
- mvscmd --pgm=OPEREXCP 2>/dev/null; operRC=$?
+ mvscmd -v --pgm=PROTEXCP 2>/dev/null; protRC=$?; 
+ mvscmd -v --pgm=OPEREXCP 2>/dev/null; operRC=$?
 . unsetcc
  if [ ${protRC} -ne 255 ] ; then
     echo "Abending application PROTEXCP should set return code to 255. RC was: ${protRC}"

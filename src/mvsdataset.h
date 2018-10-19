@@ -37,6 +37,8 @@
 	#define STDIN_NAME "stdin"
 	#define DISP_EXCL "excl"
 	#define DISP_OLD  "old"
+	#define DISP_MOD  "mod"
+	#define DISP_MODIFY  "modify"
 	#define DD_VOL    "vol"	
 	#define DD_VOLUME  "volume"		
 	
@@ -86,6 +88,7 @@
 		int isDummy:1;	
 		int isConcatenation:1;
 		int isExclusive:1;
+		int isAppend:1;
 		int isVolume:1;		
 	} DDNameList_T;
 	

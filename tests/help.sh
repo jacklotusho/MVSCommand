@@ -3,10 +3,10 @@
 # test that help comes out using -? -h --help
 #
 . setcc HelpAbbrev
-mvscmd -h
+mvscmdauth -h
 . unsetcc 
 . setcc HelpLong
-mvscmd --help
+mvscmdauth --help
 . unsetcc
 . setcc infoAbbrev
 mvscmd -?
