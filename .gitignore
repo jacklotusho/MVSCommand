@@ -1,4 +1,5 @@
 *.[oa]
+*.dbg
 *~
 *.lst
 tests/*.expected
@@ -6,3 +7,4 @@ tests/*.actual
 testsrc/*.cmd
 mvscmd
 mvscmdauth
+mvstmp

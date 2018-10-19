@@ -6,7 +6,7 @@ Error establishing environment.
 Error allocating DDName SYSTERM to CONSOLE (backing temporary dataset xxx).
 Error allocating DDName MYDD to PDS Member CEE.SCEERUN(SOMEMEM).
 8
-Error allocating DDName MYDD to file /u/ibmuser/MVSCommand.
+Error allocating DDName MYDD to file /tmp.
 8
 Error reading from stdin to MYDD.
 8

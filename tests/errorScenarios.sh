@@ -43,6 +43,7 @@ mvscmd --sysout=A\(\)
 
 (
  . setcc errTryingToRun31BitProgram;
+export STEPLIB=${RDTDDS}
  mvscmdauth --pgm=RDTD;
  . unsetcc;
 ) # 64-bit program from 31-bit mvscmdauth
