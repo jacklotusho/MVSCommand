@@ -9,6 +9,7 @@ rm -f tests/*.expected
 rm -f tests/*.actual
 rm -rf tests/CEE*
 rm -f testsrc/*.cmd
+rm -f testsrc/*.o
 rm -f opttests/*.expected
 rm -f opttests/*.actual
 rm -f opttestsrc/*.cmd

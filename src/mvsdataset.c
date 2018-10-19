@@ -464,7 +464,7 @@ static ProgramFailureMsg_T addHFSDDName(const char* option, int* optPos, OptInfo
 	int i;
 	int hfsStart = (*optPos)+1;
 	
-	for (i=hfsStart; (option[i] != '\0' && option[i] != SEPARATOR_CHAR); ++i) {
+	for (i=hfsStart; (option[i] != '\0' && option[i] != SEPARATOR_CHAR && option[i] != OPTION_CHAR); ++i) {
 		;
 	}
 

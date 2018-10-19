@@ -138,6 +138,7 @@
 		InfoDatasetFreeSucceeded=61,
 		InfoVolume=62,
 		InfoAppend=63,
+		InfoAttachSignalIssued=64,
 	} ProgramInfoMsg_T;
 	
 #ifdef DEBUG

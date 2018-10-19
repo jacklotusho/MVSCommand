@@ -136,6 +136,7 @@ static const char* ProgramInfoMessage[] = {
 	"Dataset free succeeded for %s=%s\n",	
 	",volume",	
 	",mod",
+	"signal %d issued for child process %s\n",
 };
 
 

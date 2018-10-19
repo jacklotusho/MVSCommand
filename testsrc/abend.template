@@ -1,0 +1,12 @@
+Program: <PROTEXCP> Arguments: <>
+DDNames:
+  No DDNames specified
+OS Load program PROTEXCP
+Addressing mode: AMODE31
+signal 9 issued for child process PROTEXCP
+Program: <OPEREXCP> Arguments: <>
+DDNames:
+  No DDNames specified
+OS Load program OPEREXCP
+Addressing mode: AMODE31
+signal 9 issued for child process OPEREXCP

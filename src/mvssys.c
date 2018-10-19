@@ -109,11 +109,13 @@ static int call24BitOr31BitProgram(OptInfo_T* optInfo, ProgramInfo_T* progInfo) 
 					progInfo->rc = WEXITSTATUS(status);
 				} else {
 					if (WIFSIGNALED(status)) {
-						printf("signal %d issued for child process %s\n", WTERMSIG(status), pgmName);
+                  				if (optInfo->verbose) {
+                					printInfo(InfoAttachSignalIssued, WTERMSIG(status), pgmName);
+                   				}
 					}
-					printError(ErrorChildCompletion, pgmName);
 					progInfo->rc = -1;
-		  	  }	
+					printError(ErrorChildCompletion, pgmName);
+		  	  	}	
 			}
 		} while (pid == 0); 
 	}
