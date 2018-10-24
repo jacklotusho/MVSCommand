@@ -3,7 +3,6 @@
 This project enables z/OS developers to access MVS commands like IEBCOPY and IDCAMS from the Unix System Services environment.
 +[![Join the chat at https://gitter.im/MVSCommand/Lobby](https://badges.gitter.im/MVSCommand/Lobby.svg)](https://gitter.im/MVSCommand/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  +
-  
 
 ## Code Example
 
