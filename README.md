@@ -23,7 +23,7 @@ Note: You no longer need to use a PDSE for the mvscmdauth. The build has been ch
 My thanks to Zhang Hong (Tony) Chen for this improvement. 
 
 Note that _git pull_ will put the files into the zFS file system in ASCII. You can either iconv the files to EBCDIC if you don't want to push any changes, or set the following environment variables to work in ASCII
-`
+```
 export _BPXK_AUTOCVT=ON
 export _CEE_RUNOPTS='FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'
 export _TAG_REDIR_ERR=txt
@@ -32,7 +32,7 @@ export _TAG_REDIR_OUT=txt
 export GIT_SHELL=${TOOLS_ROOT}/bin/bash
 export GIT_EXEC_PATH=${TOOLS_ROOT}/libexec/git-core
 export GIT_TEMPLATE_DIR=${TOOLS_ROOT}/share/git-core/templates
-`
+```
 
 To install:
 - copy the files to z/OS Unix System Services directory. For this example, we assume it is /u/ibmuser/MVSCommand
