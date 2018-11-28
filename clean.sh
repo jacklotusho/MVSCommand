@@ -1,4 +1,5 @@
 #!/bin/sh
+
 rm -f bin/*.o
 rm -f bin/*.lst
 rm -f bin/*.dbg
