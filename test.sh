@@ -1,5 +1,6 @@
 #!/bin/sh
 . ./setenv.sh 
+./crtTests.sh
 cd tests
 rm -f *.actual
 #set -x

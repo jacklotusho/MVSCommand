@@ -5,7 +5,9 @@
 #
 # The following environment variables must be set up in order to install mvscmd
 #
-export MVSCOMMAND_ROOT=${TOOLS_ROOT}/src/MVSCommand   # Location where mvscmd installed
+if [ -z ${MVSCOMMAND_ROOT} ]; then
+	export MVSCOMMAND_ROOT=${TOOLS_ROOT}/src/MVSCommand   # Location where mvscmd installed
+fi
 export CHLQ=CBC                                # High Level qualifier for C/C++ compiler datasets (e.g. ${CHLQ}.SCCNCMP is the compiler executable PDSE)
 export PATH=${MVSCOMMAND_ROOT}/bin:$PATH
 
