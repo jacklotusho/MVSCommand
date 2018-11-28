@@ -21,6 +21,19 @@ This made me wonder why we couldn't just run the MVS program from USS directly.
 ## Installation
 Note: You no longer need to use a PDSE for the mvscmdauth. The build has been changed to set the APF-authorized bit on for the mvscmdauth executable in the HFS
 My thanks to Zhang Hong (Tony) Chen for this improvement. 
+
+Note that _git pull_ will put the files into the zFS file system in ASCII. You can either iconv the files to EBCDIC if you don't want to push any changes, or set the following environment variables to work in ASCII
+```
+export _BPXK_AUTOCVT=ON
+export _CEE_RUNOPTS='FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'
+export _TAG_REDIR_ERR=txt
+export _TAG_REDIR_IN=txt
+export _TAG_REDIR_OUT=txt
+export GIT_SHELL=${TOOLS_ROOT}/bin/bash
+export GIT_EXEC_PATH=${TOOLS_ROOT}/libexec/git-core
+export GIT_TEMPLATE_DIR=${TOOLS_ROOT}/share/git-core/templates
+```
+
 To install:
 - copy the files to z/OS Unix System Services directory. For this example, we assume it is /u/ibmuser/MVSCommand
 - cd to the directory (/u/ibmuser/MVSCommand)
@@ -53,3 +66,5 @@ If anyone wants to contribute, please reach out to fultonm@ca.ibm.com (Mike Fult
 ## License
 
 The code uses the Eclipse Public License 1.0 ( https://opensource.org/licenses/eclipse-1.0.php )
+
+
