@@ -4,6 +4,10 @@ This project enables z/OS developers to access MVS commands like IEBCOPY and IDC
 +[![Join the chat at https://gitter.im/MVSCommand/Lobby](https://badges.gitter.im/MVSCommand/Lobby.svg)](https://gitter.im/MVSCommand/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  +
 
+## Pre-built binaries
+
+If you want to just use the tools and not build them yourself, you can [![download](https://api.bintray.com/packages/fultonm/MVSUtil/MVSCommand/images/download.svg) ](https://bintray.com/fultonm/MVSUtil/MVSCommand/_latestVersion) a binary pax file. See the readme for information on installation. 
+
 ## Code Example
 
 Here is an example of **mvscmd** being used to copy dataset IBMUSER.TEST.C to IBMUSER.TEST.COPY, writing output from IEBCOPY to the screen
