@@ -6,3 +6,4 @@ tests/*.actual
 testsrc/*.cmd
 mvscmd
 mvscmdauth
+mvstmp

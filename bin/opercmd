@@ -18,7 +18,6 @@ rc=isfcalls('ON')
 Address SDSF ISFSLASH "("cmd.") (WAIT)"                                         
                                                                                 
 if rc<>0 then do                                                                
-     say 'Bad return from isfslash.  rc is ' rc                                 
      Exit rc                                                                    
 end                                                                             
                                                                                 
@@ -27,4 +26,4 @@ do ix=1 to isfulog.0
 end                                                                             
                                                                                 
 rc=isfcalls('OFF')
-
+Exit rc
