@@ -16,15 +16,28 @@ if [ -z $1 ] ; then
 else
 	tests=${1}.sh
 fi
+if [ -z "${TEST_SKIP_LIST}" ]; then  
+	export TEST_SKIP_LIST=""
+fi
 
+maxrc=0	
 for test in ${tests}; do
-	echo ${test}
 	name="${test%.*}"
-	if [ -e ${name}.parm ]; then
-		parms=`cat ${name}.parm`
+	if test "${TEST_SKIP_LIST#*$name}" != "$TEST_SKIP_LIST"; then
+		echo "Skip ${test}"
 	else
-		parms=''
+		echo ${test}
+		if [ -e ${name}.parm ]; then
+			parms=`cat ${name}.parm`
+		else
+			parms=''
+		fi
+		${test} ${parms} >${name}.actual 2>&1
+		mdiff -Z ${name}.expected ${name}.actual
+		rc=$?
+		if [ ${rc} -gt ${maxrc} ]; then
+			maxrc=${rc}
+		fi
 	fi
-	${test} ${parms} >${name}.actual 2>&1
-	mdiff -Z ${name}.expected ${name}.actual
 done
+exit ${maxrc}

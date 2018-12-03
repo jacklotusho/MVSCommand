@@ -20,6 +20,7 @@ export LEHLQ=CEE                               # High Level qualifier for LE dat
 export COBOLHLQ=IGY610                         # High Level qualifier for COBOL compiler datasets (SIGYCOMP)
 export PLIHLQ=IEL520                           # High Level qualifier for PL/I compiler datasets (SIBMZCMP)
 export DBGHLQ=EQAE00                           # High Level qualifier for Code Coverage (optional)
+export TEST_SKIP_LIST="adrdssu errorScenarios forceFail" # adrdssu requires a PTF still in development, errorScenarios requires RDTD (need a better test) and forceFail requires dev build
 
 export DBGLIB=${DBGHLQ}.SEQAMOD:${TESTHLQ}.CEEV2R2.CEEBINIT
 export TMPVOL=USER10                           # Temporary volume to write VSAM datasets to
