@@ -11,6 +11,7 @@ If you want to just use the tools and not build them yourself, you can [![downlo
 ## Slack workspace
 
 If you want to ask questions about the utilities, check out our [slack channel](https://mvsutil.slack.com/messages)
+If you require an invitation to get access, send a note to Mike Fulton <mikefultonpersonal@gmail.com>  
 
 ## Code Example
 
