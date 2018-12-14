@@ -84,12 +84,26 @@ static void SteplibAllocationError(OptInfo_T* optInfo, const char* steplib) {
 static void ConsoleAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 	char* ddName = ip->__ddname;
 	char* dsName = ip->__dsname;
+        /*
+         * Error Codes:
+         * https://www.ibm.com/support/knowledgecenter/SSLTBW_2.1.0/com.ibm.zos.v2r1.ieaa800/erc.htm
+         */
+        if (optInfo->verbose) {
+                printError(ErrorCodesAllocatingDDName, ip->__errcode, ip->__infocode);
+        }
 	printError(ErrorAllocatingCONSOLE, ddName, dsName);	
 }
 
 static void StdinAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 	char* ddName = ip->__ddname;
 	char* dsName = ip->__dsname;
+        /*
+         * Error Codes:
+	 * https://www.ibm.com/support/knowledgecenter/SSLTBW_2.1.0/com.ibm.zos.v2r1.ieaa800/erc.htm
+         */     
+        if (optInfo->verbose) {
+                printError(ErrorCodesAllocatingDDName, ip->__errcode, ip->__infocode);
+        }
 	printError(ErrorAllocatingSTDIN, ddName, dsName);	
 }
 
@@ -845,6 +859,7 @@ static int allocConsole(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
 	ip.__alcunit = __TRK;
 	ip.__primary = 100;
 	ip.__secondary = 100;
+	ip.__dsntype = __DSNT_BASIC;
 
 	errno = 0;
 	rc = dynalloc(&ip); 
@@ -880,11 +895,13 @@ static int allocStdin(OptInfo_T* optInfo, DDNameList_T* ddNameList) {
 	ip.__alcunit = __TRK;
 	ip.__primary = 100;
 	ip.__secondary = 100;
+	ip.__dsntype = __DSNT_BASIC;
 
 	errno = 0;
 	rc = dynalloc(&ip); 
 	if (rc || FORCE(FAIL_StdinAllocation)) {
 		rc = (rc == 0) ? FORCED_ALLOCATION_RC : rc;
+		printf("rc:%d\n", rc);
 		StdinAllocationError(optInfo, &ip);
 	} else {
    		if (optInfo->verbose) {
@@ -942,6 +959,11 @@ static ProgramFailureMsg_T writeStdinToDataset(OptInfo_T* optInfo, char* dataset
 			}
 			rc = fwrite(line, numElements, size, fp);
 			if (rc != size) {
+				printf("optInfo->debug:%d\n", optInfo->debug);
+				if (optInfo->debug) {
+					printf("errno:%d strerror:%s\n", errno);        
+					perror("fwrite to dataset failed\n");
+				}
 				printError(ErrorStdinWriteFailed, recNum, dataset);
 				err = ErrorStdinWriteFailed;
 				break;
@@ -952,6 +974,11 @@ static ProgramFailureMsg_T writeStdinToDataset(OptInfo_T* optInfo, char* dataset
 	} while (c != EOF);
 	rc = fclose(fp);
 	if (rc) {
+		printf("optInfo->debug:%d\n", optInfo->debug);
+		if (optInfo->debug) {
+			printf("errno:%d strerror:%s\n", errno);        
+			perror("fclose to dataset failed\n");
+		}
 		printError(ErrorStdinWriteFailed, recNum, dataset);
 		err = ErrorStdinWriteFailed;
 	}

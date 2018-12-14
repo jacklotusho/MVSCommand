@@ -6,22 +6,22 @@
 
 tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.OBJ'"\) recfm\(f,b\) lrecl\(80\) dsorg\(po\) dsntype\(library\) catalog tracks space\(10,10\) >/dev/null 2>&1
 
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT1'"\) dsorg\(ps\) catalog tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT2'"\) dsorg\(ps\) catalog tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT3'"\) dsorg\(ps\) catalog tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT4'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT5'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT6'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT7'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT8'"\) dsorg\(ps\) catalog  tracks space\(100,10\)	>/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT9'"\) dsorg\(ps\) catalog  tracks space\(100,10\)	>/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT10'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1	
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT11'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT12'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT13'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT14'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT15'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
-tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSMDECK'"\) dsorg\(ps\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT1'"\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT2'"\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT3'"\) dsorg\(ps\) dsntype\(basic\) catalog tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT4'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT5'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT6'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT7'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT8'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\)	>/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT9'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\)	>/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT10'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1	
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT11'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT12'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT13'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT14'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSUT15'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
+tso alloc dsn\("'"${TESTHLQ}".MVSCMD.COBOL.SYSMDECK'"\) dsorg\(ps\) dsntype\(basic\) catalog  tracks space\(100,10\) >/dev/null 2>&1
 
 (
  export STEPLIB=${COBOLHLQ}.V5R2M0:${LEHLQ}.SCEERUN:${LEHLQ}.SCEERUN2:$STEPLIB;
