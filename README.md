@@ -2,15 +2,6 @@
 
 This project enables z/OS developers to access MVS commands like IEBCOPY and IDCAMS from the Unix System Services environment.
 
-## Pre-reqs
-
-To use MVSCommand or MVSUtilities, you should set the following environment variables:
-```
-export _BPXK_AUTOCVT=ON
-unset _BPX_SHAREAS 
-```
-
-The `_BPX_SHAREAS` problem is newly discovered and a fix is being investigated.
 
 ## Pre-built binaries
 

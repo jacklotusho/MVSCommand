@@ -6,6 +6,10 @@
 # LANGLVL(EXTENDED) is required because of the z-specific extensions that are utilized
 # Listings aren't required
 #
+# It is important that mvscmdauth have the +a attribute (APF authorization) so that it runs authorized.
+# Some environments set the _BPX_SHAREAS environment variable to 'YES' or 'REUSE'. mvscmd/mvscmdauth will not function correctly it runs in a 
+# shared environment and therefore we need to explicitly mark it as such by setting the -s attribute (no sharing)
+#
 DEFAULT_MODE="OPT"
 
 if [ -z "${1}" ]; then
@@ -45,4 +49,6 @@ c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssy
 rm -rf mvscmdauth
 cp mvscmd mvscmdauth
 extattr +a mvscmdauth
+extattr -s mvscmd
+extattr -s mvscmdauth
 
