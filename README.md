@@ -1,8 +1,16 @@
 ## Synopsis
 
 This project enables z/OS developers to access MVS commands like IEBCOPY and IDCAMS from the Unix System Services environment.
-+[![Join the chat at https://gitter.im/MVSCommand/Lobby](https://badges.gitter.im/MVSCommand/Lobby.svg)](https://gitter.im/MVSCommand/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
- +
+
+## Pre-reqs
+
+To use MVSCommand or MVSUtilities, you should set the following environment variables:
+```
+export _BPXK_AUTOCVT=ON
+unset _BPX_SHAREAS 
+```
+
+The `_BPX_SHAREAS` problem is newly discovered and a fix is being investigated.
 
 ## Pre-built binaries
 
@@ -34,6 +42,7 @@ My thanks to Zhang Hong (Tony) Chen for this improvement.
 Note that _git pull_ will put the files into the zFS file system in ASCII. You can either iconv the files to EBCDIC if you don't want to push any changes, or set the following environment variables to work in ASCII
 ```
 export _BPXK_AUTOCVT=ON
+unset _BPX_SHAREAS # NOTE: This must be UNSET to have mvscmd/mvscmdauth to work (an issue is open)
 export _CEE_RUNOPTS='FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)'
 export _TAG_REDIR_ERR=txt
 export _TAG_REDIR_IN=txt
