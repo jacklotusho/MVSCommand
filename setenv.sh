@@ -5,6 +5,7 @@
 #
 # The following environment variables must be set up in order to install mvscmd
 #
+
 if [ -z ${MVSCOMMAND_ROOT} ]; then
 	export MVSCOMMAND_ROOT=${TOOLS_ROOT}/src/MVSCommand   # Location where mvscmd installed
 fi
