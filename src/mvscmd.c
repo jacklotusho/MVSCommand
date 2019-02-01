@@ -40,8 +40,10 @@ static ProgramFailureMsg_T establishEnvironment() {
 	return rc;
 }
 
+extern char* buildInfo;
+
 int main(int argc, char* argv[]) {
-	OptInfo_T optInfo = { DEFAULT_MVSCMD, "", NULL, 0, 0, 0 };
+	OptInfo_T optInfo = { DEFAULT_MVSCMD, "", NULL, 0, 0, 0, 0 };
 	ProgramInfo_T progInfo = { 0, 0, 0, 0, 0 };
 
 	ProgramFailureMsg_T rc;
@@ -55,7 +57,10 @@ int main(int argc, char* argv[]) {
 	if (rc == IssueHelp) {
 		printHelp(PROG_NAME(isAPFAuthorized()));
 	}	
-	
+
+	if (optInfo.buildInfo) {
+		printInfo(InfoBuild, buildInfo);
+	}	
 	if (rc != NoError) {
 		return 8;
 	}

@@ -105,6 +105,7 @@ static const char* ProgramInfoMessage[] = {
 	"OS Load of %s failed with 0x%x\n",
 	"Syntax: %s [<args>]\n", 
 	" where <args> is one or more of the following:\n",
+	" --buildinfo | -b (build information of this program)\n",
 	" --help | -? (this help)\n",
 	" --info | -h (this help)\n",
 	" --pgm=<program-name> | -p=<program-name>  (the program to run, e.g. -p=iebcopy). Default is IEFBR14\n",
@@ -137,6 +138,7 @@ static const char* ProgramInfoMessage[] = {
 	",volume",	
 	",mod",
 	"signal %d issued for child process %s\n",
+	"Build: %s\n", 
 };
 
 
@@ -175,4 +177,7 @@ void printHelp(const char* progName) {
 	printInfo(InfoSyntax18);	
 	printInfo(InfoSyntax19);	
 	printInfo(InfoSyntax20);			
+	printInfo(InfoSyntax21);			
+	printInfo(InfoSyntax22);			
+	printInfo(InfoSyntax23);			
 }	

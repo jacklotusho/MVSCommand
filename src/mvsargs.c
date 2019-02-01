@@ -49,6 +49,11 @@ static ProgramFailureMsg_T processVerbose(const char* value, Option_T* opt, OptI
 	return NoError;
 }
 
+static ProgramFailureMsg_T processBuildInfo(const char* value, Option_T* opt, OptInfo_T* optInfo) {
+	optInfo->buildInfo = 1;
+	return NoError;
+}
+
 static ProgramFailureMsg_T processArgument(const char* value, Option_T* opt, OptInfo_T* optInfo) {
 	int valLen;
 	if (value[0] != ASSIGN_CHAR) {
@@ -131,6 +136,7 @@ ProgramFailureMsg_T processArgs(int argc, char* argv[], OptInfo_T* optInfo) {
 		{ &processPgm, "p", "pgm" }, 
 		{ &processArgument, "a", "args" }, 
 		{ &processVerbose, "v", "verbose"},
+		{ &processBuildInfo, "b", "buildinfo"},
 		{ NULL, NULL, NULL }
 	};
 	ProgramFailureMsg_T rc;

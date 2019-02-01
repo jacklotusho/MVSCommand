@@ -39,6 +39,7 @@
 		
 		int debug:1;
 		int verbose:1;
+		int buildInfo:1;
 		int help:1;
 	} OptInfo_T;
 	

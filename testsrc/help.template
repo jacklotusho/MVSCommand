@@ -1,5 +1,6 @@
 Syntax: mvscmdauth [<args>]
  where <args> is one or more of the following:
+ --buildinfo | -b (build information of this program)
  --help | -? (this help)
  --info | -h (this help)
  --pgm=<program-name> | -p=<program-name>  (the program to run, e.g. -p=iebcopy). Default is IEFBR14
@@ -18,8 +19,11 @@ Syntax: mvscmdauth [<args>]
   HFS file allocated as 'mod' (i.e. DISP=MOD or 'append') example: --archive=/tmp/mylog,mod
   Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
  Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
+ Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
+  echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
 Syntax: mvscmdauth [<args>]
  where <args> is one or more of the following:
+ --buildinfo | -b (build information of this program)
  --help | -? (this help)
  --info | -h (this help)
  --pgm=<program-name> | -p=<program-name>  (the program to run, e.g. -p=iebcopy). Default is IEFBR14
@@ -38,8 +42,11 @@ Syntax: mvscmdauth [<args>]
   HFS file allocated as 'mod' (i.e. DISP=MOD or 'append') example: --archive=/tmp/mylog,mod
   Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
  Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
+ Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
+  echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
 Syntax: mvscmd [<args>]
  where <args> is one or more of the following:
+ --buildinfo | -b (build information of this program)
  --help | -? (this help)
  --info | -h (this help)
  --pgm=<program-name> | -p=<program-name>  (the program to run, e.g. -p=iebcopy). Default is IEFBR14
@@ -58,8 +65,11 @@ Syntax: mvscmd [<args>]
   HFS file allocated as 'mod' (i.e. DISP=MOD or 'append') example: --archive=/tmp/mylog,mod
   Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
  Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
+ Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
+  echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
 Syntax: mvscmd [<args>]
  where <args> is one or more of the following:
+ --buildinfo | -b (build information of this program)
  --help | -? (this help)
  --info | -h (this help)
  --pgm=<program-name> | -p=<program-name>  (the program to run, e.g. -p=iebcopy). Default is IEFBR14
@@ -78,3 +88,5 @@ Syntax: mvscmd [<args>]
   HFS file allocated as 'mod' (i.e. DISP=MOD or 'append') example: --archive=/tmp/mylog,mod
   Volume example: --dd2=user01,vol: allocate the DDname DD2 to the VOLUME USER01 (as opposed to a particular dataset)
  Note: DD-names and the keywords DUMMY, VOL, EXCL and OLD are case-insensitive. All other options are case-sensitive
+ Example: Compare 2 PDS members 'old' and 'new' and write the output to stdout
+  echo "   CMPCOLM 1:72" | mvscmd --pgm=isrsupc --args="DELTAL,LINECMP" --newdd=ibmuser.in\(new\) --olddd=ibmuser.in\(old\) --sysin=stdin --outdd=stdout
