@@ -27,7 +27,5 @@ cp -p bin/mvscmd $1
 rc3=$?
 cp -p bin/mvscmdauth $1
 rc4=$?
-cp -p bin/.bldinfo $1
-rc5=$?
-rc=`expr $rc0 + $rc1 + $rc2 + $rc3 + $rc4 + $rc5`
+rc=`expr $rc0 + $rc1 + $rc2 + $rc3 + $rc4`
 exit ${rc} 
