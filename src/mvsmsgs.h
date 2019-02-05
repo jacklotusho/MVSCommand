@@ -68,8 +68,9 @@
 		ErrorFreeing24BitHeap=49,
 		ErrorAllocatingVolume=50,
 		ErrorFreeingVolume=51,
+                ErrorAllocatingVIODDName=52,
+		ErrorVIOUnitNotDefined=53,
 	} ProgramFailureMsg_T;
-	
 	/*
 	 * The ProgramInfo_T enum and ProgramInfoMessage must be kept in sync.
 	 */
@@ -141,6 +142,8 @@
 		InfoAppend=64,
 		InfoAttachSignalIssued=65,
 		InfoBuild=66,
+		InfoVIO=67,
+		InfoVIOFreeSucceeded=68,
 	} ProgramInfoMsg_T;
 	
 #ifdef DEBUG

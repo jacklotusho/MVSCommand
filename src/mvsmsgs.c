@@ -44,7 +44,7 @@ static const char* ProgramFailureMessage[] = {
 	"Invalid dataset option %s specified.\n", 
 	"Error allocating STEPLIB %s.\n",
 	"Error allocating DDName %s to CONSOLE (backing temporary dataset %s).\n", 
-	"Error allocating DDName %s concatenation.\n",
+	"Error allocating DDName %s concatenation. SVC99 Error code:%d. Information code:%d\n",
 	"Error allocating DDName %s to Dataset %s.\n",
 	"Error allocating DDName %s to PDS Member %s(%s).\n",
 /*30*/	"Error allocating DDName %s to DUMMY.\n",
@@ -69,6 +69,8 @@ static const char* ProgramFailureMessage[] = {
 	"Error %d freeing 24-bit storage\n",
 	"Error allocating DDName %s to Volume %s.\n",
 	"Error freeing DDName %s from Volume %s.\n",		
+	"Error allocating DDName %s as VIO. SVC99 Error code:%d. Information code:%d\n", 
+	"Error allocating DDName %s as UNIT=VIO. VIO is not defined as an esoteric on this system\n", 
 };
 
 static const char* ProgramInfoMessage[] = {
@@ -139,6 +141,8 @@ static const char* ProgramInfoMessage[] = {
 	",mod",
 	"signal %d issued for child process %s\n",
 	"Build: %s\n", 
+	",vio",	
+	"VIO free succeeded for %s=%s\n",	
 };
 
 

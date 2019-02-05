@@ -65,7 +65,8 @@ c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(ex
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvssys.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/mvscmd.c
 c89 -c ${CC_OPTS} -Wc,xplink\(OSCALL\(UPSTACK\)\),csect,gonum,offset,langlvl\(extended\),list\(./\) ../src/buildinfo.c
-c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssys.o mvsutil.o mvsload.o mvsmsgs.o mvstempdataset.o buildinfo.o
+c89 -o mvscmd ${LINK_OPTS} -Wl,xplink,ac=1 mvscmd.o mvsargs.o mvsdataset.o mvssys.o mvsutil.o mvsload.o mvsmsgs.o mvstempdataset.o buildinfo.o >mvscmd.map 2>&1
+
 rm -rf mvscmdauth
 cp mvscmd mvscmdauth
 extattr +a mvscmdauth

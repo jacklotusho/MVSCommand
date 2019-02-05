@@ -1,6 +1,7 @@
 *.[oa]
 *~
 *.lst
+*.map
 src/buildinfo.c
 tests/*.expected
 tests/*.actual

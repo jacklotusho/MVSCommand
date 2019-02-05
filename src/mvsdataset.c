@@ -68,6 +68,25 @@ typedef struct {
 	unsigned short key;
 	unsigned short numDatasets;
 } SVC99ConcatenatedDatasetAllocation_T;
+
+typedef _Packed struct {
+	unsigned short key;
+	unsigned short num;
+	unsigned short len;
+	unsigned char  name[8];
+} SVC99UnitAllocation_T;
+
+typedef _Packed struct {
+	unsigned short key;
+	unsigned short num;
+	unsigned short len;
+	unsigned char  name[8];
+} SVC99DDNameAllocation_T;
+
+typedef struct {
+	SVC99DDNameAllocation_T* dd;    
+	SVC99UnitAllocation_T* unit;
+} SVC99DDNameUnitAllocation_T;
 	
 static const char* prtStrPointer(const char* p) {
 	if (p == NULL) {
@@ -109,7 +128,16 @@ static void StdinAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
 
 static void ConcatenationAllocationError(OptInfo_T* optInfo, DDNameList_T* ddNameList, struct __S99struc* parmlist) {
 	char* ddName = ddNameList->ddName;
-	printError(ErrorAllocatingConcatenation, ddName);	
+	printError(ErrorAllocatingConcatenation, ddName, parmlist->__S99ERROR, parmlist->__S99INFO);
+}
+
+static void VIODDNameAllocationError(OptInfo_T* optInfo, char* ddname, struct __S99struc* parmlist) {
+	if (parmlist->__S99ERROR == 540) {
+		/* Guess of 'VIO' for VIO unit incorrect */
+		printError(ErrorVIOUnitNotDefined);
+	} else {	
+		printError(ErrorAllocatingVIODDName, ddname, parmlist->__S99ERROR, parmlist->__S99INFO);	
+	}
 }
 
 static void DatasetAllocationError(OptInfo_T* optInfo, __dyn_t* ip) {
@@ -572,7 +600,9 @@ ProgramFailureMsg_T addDDName(const char* option, OptInfo_T* optInfo) {
 		} else if (!strnocasecmp(subOpt, DISP_MOD) || !strnocasecmp(subOpt, DISP_MODIFY)) {
 			entry->isAppend = 1;
 		} else if (!strnocasecmp(subOpt, DD_VOL) || !strnocasecmp(subOpt, DD_VOLUME)) {
-			entry->isVolume = 1;
+                        entry->isVolume = 1;
+		} else if (!strnocasecmp(subOpt, DD_VIO) || !strnocasecmp(subOpt, DD_MEMORY)) {
+			entry->isVIO = 1;
 		} else {
 			printError(InvalidDatasetOption, optLen-optPos, &option[optPos+1]);	
 			rc = InvalidDatasetOption;
@@ -612,6 +642,14 @@ static int freePDSMember(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode,
    	}
 	return rc;
 
+}
+
+static int freeVIO(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
+	/* msf - tbd */
+	if (optInfo->verbose) {
+		printInfo(InfoVIOFreeSucceeded, ddName, fileNode->node.ds.dsName);
+	}
+	return 0;
 }
 
 static int freeVolume(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
@@ -785,6 +823,56 @@ static int allocDataset(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode, 
    			printInfo(InfoDatasetAllocationSucceeded, ddName, fileNode->node.ds.dsName);
    		}
    	}
+	return rc;
+}
+
+static int allocVIO(OptInfo_T* optInfo, char* ddName, FileNode_T* fileNode) {
+	char* vioName = "VIO"; /* if VIO fails, fail the allocation. */
+	struct __S99struc parmlist = {0};
+	SVC99DDNameAllocation_T dd;
+	SVC99UnitAllocation_T unit;
+	SVC99DDNameUnitAllocation_T  ddUnit; 
+	SVC99DDNameUnitAllocation_T* svc99Parms;
+	int svc99ParmsInt;
+	__dyn_t ip;
+	int rc;
+/*
+Example: To specify the ddname DD1, code:
+KEY    #     LEN   PARM
+0001   0001  0003  C4 C4 F1
+
+Example: To specify the group name SYSDA, code:
+KEY    #      LEN    PARM
+0015   0001   0005   E2 E8 E2 C4 C1
+*/
+	ddUnit.dd = &dd;
+	ddUnit.unit = &unit;
+	svc99Parms = &ddUnit;
+	dd.key   = 1;
+	dd.num   = 1;
+	dd.len   = strlen(ddName);
+	memcpy(dd.name, ddName, dd.len);
+
+	unit.key = 0x15;
+	unit.num = 1;
+	unit.len = strlen(vioName);
+	memcpy(unit.name, vioName, unit.len);
+	
+	parmlist.__S99VERB = 0x1;  /* Verb code for dsname allocation*/ 
+	parmlist.__S99RBLN = 20; /* minimum length for request block */
+	svc99ParmsInt = (int) ((void*) ddUnit.unit);
+	ddUnit.unit = (void*) (svc99ParmsInt | 0x80000000); /* turn HOb on */
+	parmlist.__S99TXTPP = svc99Parms;
+
+	rc = svc99(&parmlist);
+	if (rc || FORCE(FAIL_VIODDNameAllocation)) {
+		rc = (rc == 0) ? FORCED_ALLOCATION_RC : rc;
+		VIODDNameAllocationError(optInfo, ddName, &parmlist);
+	} else {
+               if (optInfo->verbose) {
+                        printInfo(InfoDatasetAllocationSucceeded, ddName, fileNode->node.ds.dsName);
+		}
+	}
 	return rc;
 }
 
@@ -1199,6 +1287,9 @@ static void printDDNames(DDNameList_T* ddNameList) {
 				if (ddNameList->isVolume) {
 					printInfo(InfoVolume);
 				}
+				if (ddNameList->isVIO) {
+					printInfo(InfoVIO);
+				}
 				fileNode = fileNode->next;
 				if (fileNode != NULL) {
 					printInfo(InfoConcatenationSeparator);
@@ -1244,7 +1335,9 @@ ProgramFailureMsg_T establishDDNames(OptInfo_T* optInfo) {
 			} else {
 				if (ddNameList->isVolume) {
 					rc = allocVolume(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
-				} else {
+				} else if (ddNameList->isVIO) {
+					rc = allocVIO(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
+                                } else {
 					rc = allocDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive, ddNameList->isAppend);
 				}
 			}	
@@ -1287,7 +1380,9 @@ ProgramFailureMsg_T freeDDNames(OptInfo_T* optInfo) {
 			} else {
 				if (ddNameList->isVolume) {
 					rc = freeVolume(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
-				} else {
+				} else if (ddNameList->isVIO) {
+                                 	rc = freeVIO(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head);
+                                } else {
 					rc = freeDataset(optInfo, ddNameList->ddName, ddNameList->fileNodeList.head, ddNameList->isExclusive, ddNameList->isAppend);
 				}
 			}	

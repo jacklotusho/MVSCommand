@@ -41,6 +41,8 @@
 	#define DISP_MODIFY  "modify"
 	#define DD_VOL    "vol"	
 	#define DD_VOLUME  "volume"		
+	#define DD_VIO    "vio"	
+	#define DD_MEMORY "memory"	
 	
 	#define DATASET_PROBABLY_DOES_NOT_EXIST 0x1708
 	
@@ -90,6 +92,7 @@
 		int isExclusive:1;
 		int isAppend:1;
 		int isVolume:1;		
+		int isVIO:1;		
 	} DDNameList_T;
 	
 	#include "mvsargs.h"
